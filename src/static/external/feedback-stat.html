@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!-- for mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> -->
+
+    <title> 游戏反馈统计 - gamekanban.com </title>
+
+    <script type="text/javascript" src="../assets/js/prerequisite.min.js"></script>
+    <script type="text/javascript" src="../use-assets.js">
+        pageConfig.PAGEID = 'feedback-stat.html';
+        pageConfig.pageURI = new Utils.URI(window.location.href);
+        pageConfig.assetsRoot = '../assets/';
+    </script>
+
+    <script type="text/javascript">
+        pageConfig = window.appConfig['feedback-stat.html'];
+        var userprefs = pageConfig.userPrefs;
+        Utils.log(userprefs);
+
+        var currency_symbol = userprefs.currency_symbol;
+    </script>
+</head>
+<body>
+    <div class="navbar navbar-default navbar-static-top" style="margin-bottom: 0">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-nav-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar" style="background: #fff"></span>
+                    <span class="icon-bar" style="background: #fff"></span>
+                    <span class="icon-bar" style="background: #fff"></span>
+                </button>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="top-nav-collapse">
+                <ul class="nav navbar-nav"> 
+                    <li class="dropdown project">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-folder-open"></i>
+                            <span style="font-weight: normal">当前:</span>
+                            <span id="current_game"><!--游戏名--></span>
+                            <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li class="heading">
+                                <div class="pull-right">
+                                    <a href="javascript:;" onclick="gotoPage('../main.html'); return false;">
+                                        游戏列表
+                                    </a>
+                                </div>
+                                切换游戏
+                            </li>
+  
+                            <!-- gameid-template -->
+                            <div id="gameid-template" style="display:none">
+                                <li id="gameid-{{gameid}}" class="project" style="padding:0">
+                                    <a href="javascript:;" style="display:block; float:right; text-align:right; color:#08c; padding:10px 15px 10px 5px"
+                                        onclick="gotoPage('../settings.html', {
+                                            gameid: '{{gameid}}',
+                                            gamename: '{{gamename}}'
+                                        }); return false;">
+                                        <i class="fa fa-cog"></i>
+                                        设置
+                                    </a>
+                                    <a href="javascript:;" style="clear:none; display:block; padding:10px 5px 10px 15px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; width:190px; padding-right:0"
+                                        onclick="gotoPage('./feedback-stat.html', {
+                                            gameid: '{{gameid}}',
+                                            gamename: '{{gamename}}'
+                                        }); return false;">
+                                        <i class="fa fa-folder"></i>
+                                        {{gamename}}
+                                    </a>
+                                </li>
+                            </div><!--// gameid-template -->
+
+                            <li class="footer">
+                                <form method="get" action="../new.html">
+                                    <input type="submit" value="创建新游戏" class="btn btn-success btn-sm" />
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right"> 
+                    <li class="dropdown alerts" id="alerts">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell"></i> 
+                            <span class="label label-info">3</span>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-header">最新消息</li>
+
+                            <li id="news_15" class="news">
+                                <a href="javascript:void();">
+                                <i class="fa fa-circle" style="color: #5bc0de"></i>&nbsp;
+                                    2016-10-11: 游戏活跃人数过千万
+                                </a>
+                            </li>
+
+                            <li id="news_14" class="news">
+                                <a href="https://www.improvely.com/blog/2016/06/24/new-metric-converted-people/">
+                                <i class="fa fa-circle" style="color: #5bc0de"></i>&nbsp; 
+                                    2015-09-22: 游戏活跃人数过百万
+                                </a>
+                            </li>
+
+                            <li id="news_14" class="news">
+                                <a href="https://www.improvely.com/blog/2016/06/24/new-metric-converted-people/">
+                                <i class="fa fa-circle" style="color: #5bc0de"></i>&nbsp; 
+                                    2013-08-10: 游戏活跃人数过万
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown profile">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-cog fa-lg"></i>
+                            帐号设置
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/plan"><i class="fa fa-credit-card"></i> Plan &amp; Billing Info</a></li>
+                            <li><a href="/users"><i class="fa fa-users"></i> 管理用户 </a></li>
+                            <li><a href="/api"><i class="fa fa-key"></i> API 证书</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown profile">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="../repo/users/test123.png" style="border:1px solid #ccc; border-radius:2px; position: absolute; top:12px; left:15px" />
+                            <span style="margin-left: 33px">signinuser@shinezone.com</span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../myprofile.html"><i class="fa fa-user"></i> 我的帐号 </a></li>
+                            <li><a href="../referral.html"><i class="fa fa-user-plus"></i> 推荐给朋友 </a></li>
+                            <li><a href="../signout.html"><i class="fa fa-power-off"></i> 退出登录 </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <script type="text/javascript">
+                initOwnerGames("../api/");
+            </script>
+        </div> <!-- /container -->
+    </div> <!-- /navbar -->
+
+    <!-- main meuns -->
+    <div class="navbar navbar-subnav">
+        <div class="container">
+            <ul class="nav navbar-nav navbar-sub"> 
+                <li><a href="javascript:;" onclick="gotoPage('../dashboard.html');"><i class="fa fa-th-large"></i> 游戏看板 </a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-bar-chart"></i><span> 游戏外部舆情 </span><b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:;" onclick="gotoPage('../external/feedback-stat.html'); return false;"><i class="fa fa-globe"></i> 游戏反馈统计 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('../external/forum-stat.html'); return false;"><i class="fa fa-bullhorn"></i> 论坛发帖统计 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('../external/publish-stat.html'); return false;"><i class="fa fa-search"></i> 渠道统计分析 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('../external/loss-factor.html'); return false;"><i class="fa fa-filter"></i> 流失因素分析 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('../external/user-chatting.html'); return false;"><i class="fa fa-share-alt"></i> 玩家聊天分析 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('../external/user-portrait.html'); return false;"><i class="fa fa-share"></i> 玩家画像追踪 </a></li>                    
+                        <li><a href="javascript:;" onclick="gotoPage('../external/game-graph.html'); return false;"><i class="fa fa-link"></i> 相关游戏图谱 </a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-exclamation-triangle"></i><span> 游戏内数据服务 </span> <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:;" onclick="gotoPage('../internal/potential-loss.html'); return false;"><i class="fa fa-line-chart"></i> 潜在流失用户分析 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('../internal/potential-paid.html'); return false;"><i class="fa fa-line-chart"></i> 潜在付费用户分析 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('../internal/user-clustering.html'); return false;"><i class="fa fa-line-chart"></i> 用户聚类分析 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('../internal/individual-referral.html'); return false;"><i class="fa fa-line-chart"></i> 个性化推荐系统 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('../internal/action-predicting.html'); return false;"><i class="fa fa-line-chart"></i> 用户行为预测服务 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('../internal/user-fondness.html'); return false;"><i class="fa fa-line-chart"></i> 用户喜好度分析 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('../internal/game-chatting.html'); return false;"><i class="fa fa-line-chart"></i> 游戏内聊天分析 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('../internal/health-trends.html'); return false;"><i class="fa fa-line-chart"></i> 游戏健康趋势评估 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('../internal/logging-search.html'); return false;"><i class="fa fa-line-chart"></i> 日志监控与搜索服务 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('../internal/value-evaluation.html'); return false;"><i class="fa fa-line-chart"></i> 游戏数值评估系统 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('../internal/anti-fraud.html'); return false;"><i class="fa fa-line-chart"></i> 反欺诈分析 </a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-wrench"></i> <span> 管理工具 </span> <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/tools/webshop/import"><i class="fa fa-upload"></i> Import PPC Costs</a></li>
+                        <li><a href="/tools/webshop/affiliate/import"><i class="fa fa-money"></i> Import Affiliate Commissions</a></li>
+                        <li><a href="/tools/webshop/links"><i class="fa fa-link"></i> Manage Tracking Links</a></li>
+                        <li><a href="/reports/webshop/people/explore"><i class="fa fa-users"></i> People Explorer</a></li>
+                        <li><a href="/reports/webshop/realtime"><i class="fa fa-eye"></i> Realtime Spy</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right" style="margin-right: 0">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle btn-success btn btn-sm" data-toggle="dropdown" style="font-weight: bold; margin: 9px 0; padding: 4px 10px; background: #5eb95e">
+                        <i class="fa fa-plus"></i> 新建 <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" style="margin-top: -9px">
+                        <li><a href="/tools/webshop/link_builder"><i class="fa fa-link"></i> Tracking Link</a></li>
+                        <li><a href="/tools/webshop/link_builder?ab=true"><i class="fa fa-random"></i> A/B Split Test</a></li>
+                        <li><a href="/tools/webshop/affiliate/link_builder"><i class="fa fa-share"></i> Affiliate Outlink</a></li>
+                        <li><a href="/tools/webshop/funnel_builder"><i class="fa fa-filter"></i> Funnel Report</a></li>
+                        <li><a href="/user"><i class="fa fa-user"></i> User</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div> <!-- /container -->    
+    </div> <!-- /navbar -->
+
+    <!-- page specific -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="daterange" class="selectbox pull-right">
+                    <i class="fa fa-calendar"></i>
+                    <span>2016-09-20 - 2016-10-19</span>
+                    <b class="caret"></b>
+                </div>
+
+                <div class="pull-right" style="margin-right: 10px">
+                    <select name="goal" id="goalfilter" style="width:150px" multiple="multiple">
+                        <option value="positive">正向反馈</option>
+                        <option value="negative">负向反馈</option>
+                        <option value="neutral">中性反馈</option>
+                    </select>
+                </div>
+
+                <div class="transparent-header">
+                    <h2> 游戏 </h2>
+                    <h1> 游戏反馈统计 </h1>
+                </div>
+            </div>
+            <script type="text/javascript">
+                $('#daterange span').html(userprefs.start + ' - ' + userprefs.end);
+            </script>
+        </div>
+
+        <!-- main content -->
+        <div class="row" style="margin-bottom: 20px">
+            <div class="col-md-12">
+                <div id="tabtrace" class="breadcrumbs">
+                    <ul class="breadcrumb-alt">
+                        <li><a href="?tab=channel"> 所有渠道 </a></li>
+                    </ul>
+                </div>
+                <script type="text/javascript">
+                    var html = '<li><a href="?tab=channel"> 所有渠道 </a></li>';
+                    var params = pageConfig.pageURI.query_params;
+
+                    var qtab = params['filters[channel]'];
+
+                    if (typeof qtab != 'undefined') {
+                        var q = '<li><a href="?tab=channel';
+                        q += '&filters[channel]=' + qtab + '">' + qtab + '</a></li>';
+                        html += q;
+                    }
+
+                    $('#tabtrace ul').html(html);
+                </script>
+            </div>
+        </div>
+
+        <!-- graph -->
+        <div class="row" style="margin-bottom: 20px">
+            <div class="col-md-12">
+                <div class="page page-white">
+                    <div id="graph" class="graph">
+                        <div class="pull-right">
+                            <!-- table: forum_word -->
+                            <select name="graph_metric1" style="width: 140px">
+                                <option value="posts">帖子数目</option>
+                                <option value="clicks">浏览次数</option>
+                                <option value="replys">回复次数</option>
+                                <option value="flowers">点赞次数</option>
+                                <option value="eggs">差评次数</option>
+                                <option value="clicksPerPost">每贴浏览次数</option>
+                                <option value="replysPerPost">每贴回复次数</option>
+                                <option value="flowersPerPost">每贴点赞次数</option>
+                            </select>
+ 
+                            <select name="graph_metric2" style="width: 140px">
+                                <option value="posts">帖子数目</option>
+                                <option value="clicks">浏览次数</option>
+                                <option value="replys">回复次数</option>
+                                <option value="flowers">点赞次数</option>
+                                <option value="eggs">差评次数</option>
+                                <option value="clicksPerPost">每贴浏览次数</option>
+                                <option value="replysPerPost">每贴回复次数</option>
+                                <option value="flowersPerPost">每贴点赞次数</option>
+                            </select>
+
+                            <select name="graph_units" style="width: 100px; display: none">
+                                <option value="days"> 每天 </option>
+                                <option value="weeks"> 每周 </option>
+                                <option value="months"> 每月 </option>
+                            </select>
+
+                            <btn class="btn btn-default btn-sm graph_download" rel="tooltip" title="下载 Excel CSV" style="margin-left: 7px; background: #fff; border-width: 1px">
+                                <i class="fa fa-download"></i>
+                            </btn>
+                        </div>
+
+                        <div class="pull-left metric1">
+                            <h1 style="font-weight: normal; color: #08c; margin: 0; font-size: 30px; line-height: 1.1em"></h1>
+                            <h2 style="font-weight: normal; color: #ababab; margin: 0; letter-spacing: .15em; text-transform: uppercase; line-height: 1.5em; font-size: 12px">Facebook</h2>
+                        </div>
+
+                        <div class="pull-left metric2" style="margin-left: 30px">
+                            <h1 style="font-weight: normal; color: #390; margin: 0; font-size: 30px; line-height: 1.1em"></h1>
+                            <h2 style="font-weight: normal; color: #ababab; margin: 0; letter-spacing: .15em; text-transform: uppercase; line-height: 1.5em; font-size: 12px">好评</h2>
+                        </div>
+
+                        <div class="placeholder" style="clear: both; margin: 0 -10px -10px -10px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- table -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="nav nav-tabs nav-tabs-toplevel" style="border-bottom: 2px solid #ccc">
+                    <li class="active"><a href="?tab=id" style="font-weight: normal">全部统计项</a></li>
+                    <li><a href="?tab=channel" style="font-weight: normal">按渠道统计</a></li>
+                    <li><a href="?tab=domain" style="font-weight: normal">按来源统计</a></li>
+                    <li><a href="?tab=statdt" style="font-weight: normal">按日期统计</a></li>
+                </ul>
+
+                <div class="page page-white" style="padding: 0">
+                    <!-- report.json -->
+                    <table id="report" class="table-striped">
+                        <thead>
+                            <tr>
+                                <th style="text-align:left; width:100%">ID</th>
+                                <th style="text-align:center" title="统计时间">统计日期</th>
+                                <th style="text-align:left" title="帖子论坛">论坛渠道</th>
+                                <th style="text-align:left" title="帖子来源URI">帖子来源</th>
+                                <th style="text-align:right" title="帖子数目">帖子数</th>
+                                <th style="text-align:right" title="帖子被浏览的次数">浏览次数</th>
+                                <th style="text-align:right" title="用户回复帖子次数">回复次数</th>
+                                <th style="text-align:right" title="用户好评(送鲜花)次数">鲜花次数</th>
+                                <th style="text-align:right" title="用户差评(扔鸡蛋)次数">鸡蛋次数</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="loading">
+                                <td colspan="11" style="text-align: center">
+                                    <div class="message">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped active" style="width: 100%;"></div>
+                                        </div>
+                                        正在生成数据报告，请稍候...
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="nodata">
+                                <td colspan="11" style="text-align: center">
+                                    <div class="message">
+                                        当前选择的条件下没有数据。
+
+                                        请更换条件重试！
+                                    </div>
+                                </td>
+                            </tr>									
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
+                <a href="/api/report.xls?type=all">
+                    <button class="btn btn-primary" style="margin-top: 20px">
+                        <i class="fa fa-download"></i> &nbsp; 下载 Excel CSV
+                    </button>
+                </a>
+            </div>
+        </div> <!-- //table -->
+
+        <script type="text/javascript">
+            var updates = 0;
+            var loading = $('#report tbody .loading').hide().clone();
+            var nodata = $('#report tbody .nodata').hide().clone();
+
+            $(document).ready(function() {
+                getTable();
+                getGraph();
+            });
+            
+            function getGraph(start, end) {
+                $('#graph .placeholder').html('<div style="padding: 40px 0 0 0; text-align: center; font-size: 18px">Loading...</div>');
+                $('#graph h1, #graph h2').html('&nbsp;');
+                $('#graph .metric1 h1').html('<i class="fa fa-spinner fa-spin"></i>');
+
+                var jsonurl = '../api/graph.json?filters[all]=1';
+                jsonurl += '&filters[goal]=' + encodeURIComponent(userprefs.goal);
+                jsonurl += '&metric1=' + userprefs.metric1 + '&metric2=' + userprefs.metric2 + '&units=' + userprefs.units;
+
+                if (typeof location.search == 'string' && location.search.length > 0) {
+                    jsonurl += '&' + location.search.substring(1);
+                }
+
+                if (typeof start != 'undefined' && typeof end != 'undefined' && start != null & end != null) {
+                    jsonurl += '&start=' + encodeURIComponent(start) + '&end=' + encodeURIComponent(end);
+                }
+
+                $.getJSON(jsonurl, function(data) {
+                    if (data.length != 0) {
+                        imGraph2('graph', data.Rows);
+                    }
+                });
+            }
+
+            function downloadGraph() {
+                var dlurl = '../api/graph.xls?filters[all]=1';
+                dlurl += '&filters[goal]=' + encodeURIComponent(userprefs.goal);
+                dlurl += '&metric1=' + userprefs.metric1 + '&metric2=' + userprefs.metric2;
+
+                if (typeof location.search == 'string' && location.search.length > 0) {
+                    dlurl += '&' + location.search.substring(1);
+                }
+
+                window.location = dlurl;
+            }
+
+            function getTable(start, end) {
+                $('#report tbody').html(loading.html());
+                $('#report tfoot').html('');
+
+                var jsonurl = '../api/report.json?filters[all]=1';
+
+                if (typeof location.search == 'string' && location.search.length > 0) {
+                    jsonurl += '&' + location.search.substring(1) + '&type=all&filters[goal]=' + encodeURIComponent(userprefs.goal);
+                } else {
+                    jsonurl += '&type=all&filters[goal]=' + encodeURIComponent(userprefs.goal);
+                }
+
+                jsonurl += '&gameid=' + encodeURIComponent(userprefs.gameid);
+
+                if (typeof start != 'undefined' && typeof end != 'undefined' && start != null && end != null) {
+                    jsonurl += '&start=' + encodeURIComponent(start) + '&end=' + encodeURIComponent(end);
+                } else {
+                    jsonurl += '&start=' + encodeURIComponent(userprefs.start) + '&end=' + encodeURIComponent(userprefs.end);
+                }
+
+                Utils.log("getTable: '" + jsonurl + "'");
+
+                $.getJSON(jsonurl, function(jsonData) {
+                    var html = '',
+                        posts = 0,
+                        clicks = 0,
+                        replys = 0,
+                        flowers = 0,
+                        eggs = 0;                            
+
+                    var data = jsonData.Rows;
+
+                    if (data.length == 0) {
+                        $('#report tbody').html(nodata.html());
+                    } else {
+                        for (var row in data) {
+                            var channel = data[row]['channel'];
+
+                            if (data[row]['channel'] == null || data[row]['channel'] == '') {
+                                channel = '[ null ]';
+                            }
+
+                            html += '<tr>';
+
+                            html += '<td style="text-align:left">' + data[row]['id'] + '</td>';
+
+                            html += '<td style="text-align:right">' + data[row]['statdt'] + '</td>';
+
+                            var url = '?tab=channel&filters[channel]=' + encodeURIComponent(data[row]['channel']);
+                            html += '<td style="text-align:left" class="ellipsis">';
+                            if (channel.length > 40 && (channel.substr(0, 7) == 'http://' || channel.substr(0,8) == 'https://')) {
+                                html += '<a href="' + url + '" title="' + channel + '">' + channel + '</a>';
+                            } else {
+                                html += '<a href="' + url + '">' + channel + '</a>';
+                            }
+                            html += '</td>';
+
+                            // domain
+                            html += '<td style="text-align:left" class="ellipsis" title="' + data[row]['domain'] + '">' + data[row]['domain'] + '</td>';
+
+                            html += '<td>' + add_commas(data[row]['posts']) + '</td>';
+                            html += '<td>' + add_commas(data[row]['clicks']) + '</td>';
+                            html += '<td>' + add_commas(data[row]['replys']) + '</td>';
+                            html += '<td>' + add_commas(data[row]['flowers']) + '</td>';
+                            html += '<td>' + add_commas(data[row]['eggs']) + '</td>';
+                            
+                            html += '</tr>';
+
+                            posts += parseInt(data[row]['posts']);
+                            clicks += parseInt(data[row]['clicks']);
+                            replys += parseInt(data[row]['replys']);
+                            flowers += parseInt(data[row]['flowers']);
+                            eggs += parseFloat(data[row]['eggs']);
+                        }
+
+                        $('#report tbody').html(html);
+
+                        if (updates == 0) {
+                            $("#report").tablesorter({
+                                    textExtraction: function(node) { 
+                                        var decoded = $('<div/>').html(currency_symbol).text();
+                                        return node.innerHTML.replace(/<\/?[^>]+>/gi, '').replace(',', '').replace(currency_symbol, '').replace(decoded, '');
+                                    },
+                                    sortList: [[1,1]]
+                                });
+                        } else {
+                            $('#report').trigger("update");
+                            $('#report').trigger("sorton", [[[1,1]]]);
+                        }
+
+                        updates++;
+                    }
+
+                    // table footer
+                    html = '<tr>';
+
+                    html += '<td style="text-align: left"><b>总计:</b></td>';
+                    html += '<td></td>';
+                    html += '<td></td>';
+                    html += '<td></td>';
+                    html += '<td>' + add_commas(posts) + '</td>';
+                    html += '<td>' + add_commas(clicks) + '</td>';			
+                    html += '<td>' + add_commas(replys) + '</td>';
+                    html += '<td>' + add_commas(flowers) + '</td>';
+                    html += '<td>' + add_commas(eggs) + '</td>';
+
+                    html += '</tr>';
+
+                    $('#report tfoot').html(html);
+                });
+            }
+
+            function getInteger(value) {
+                try {
+                    return parseInt(value);
+                } catch (e) {
+                    return 0;
+                }
+            }
+
+            function divNumbers(fractor, denominator, fixed) {
+                try {
+                    if (typeof denominator !== 'undefined' && typeof fractor !== 'undefined') {
+                        if (denominator == 0 || fractor == 0) {
+                            return 0;
+                        }
+
+                        var d = parseFloat(denominator);
+                        var f = parseFloat(fractor);
+                        var v = parseFloat(f / d);
+                        
+                        if (typeof denominator === 'undefined') {
+                            fixed = 2;
+                        }
+                        return v.toFixed(fixed);
+                    }
+                } catch (e) {
+                    return 0;
+                }
+            }
+
+            function imGraph2(target, data) {
+                var chartoptions = {
+                    global: { 
+                        useUTC: false
+                    },
+                    chart: {
+                        renderTo: 'graph',
+                        /*margin: [25, 40, 25, 40],*/
+                        marginTop: 0,
+                        marginBottom: 40,
+                        borderRadius: 0,
+                        backgroundColor: '#ffffff'
+                    },
+                    title: {
+                        text: null
+                    },
+                    colors: ['#0088cc', '#339900'],
+                    credits: {
+                        enabled: false
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        area: {
+                            lineWidth: 2.5,
+                            fillOpacity: .1,
+                            marker: {
+                                lineColor: '#fff',
+                                lineWidth: 1,
+                                radius: 3.5,
+                                symbol: 'circle'
+                            },
+                            shadow: false
+                        },
+                        column: {
+                            lineWidth: 16,
+                            shadow: false,
+                            borderWidth: 0,
+                            groupPadding: .05
+                        }
+                    },
+                    xAxis: {
+                        type: 'datetime',
+                        title: {
+                            text: null
+                        },
+                        tickmarkPlacement: 'off',
+                        dateTimeLabelFormats: {
+                            day: '%b %e'
+                        },
+                        gridLineColor: '#eeeeee',
+                        gridLineWidth: 0,
+                        labels: {
+                            style: {
+                                color: '#999999'
+                            }
+                        }
+                    },
+                    yAxis: [
+                        {
+                            showFirstLabel: false,
+                            showLastLabel: false,
+                            tickPixelInterval: 50,
+                            endOnTick: false,
+                            title: {
+                                text: null
+                            },
+                            gridLineColor: '#eeeeee',
+                            gridLineWidth: .5,
+                            zIndex: 2,
+                            labels: {
+                                align: 'right',
+                                style: {
+                                    color: '#999999'
+                                },
+                                x: -4
+                            }
+                        }, {
+                            showFirstLabel: false,
+                            showLastLabel: false,
+                            tickPixelInterval: 50,
+                            endOnTick: false,
+                            title: {
+                                text: null
+                            },
+                            opposite: true,
+                            gridLineColor: '#eeeeee',
+                            gridLineWidth: .5,
+                            zIndex: 1,
+                            labels: {
+                                align: 'left',
+                                style: {
+                                    color: '#999999'
+                                },
+                                x: 4
+                            }
+                        }
+                    ],
+                    tooltip: {
+                        shadow: false,
+                        borderRadius: 3,
+                        shared: true,
+                        formatter: function(args) {
+                            var y1 = (parseInt(this.points[0].y) == this.points[0].y) ? this.points[0].y : this.points[0].y.toFixed(2);
+                            var y2 = (parseInt(this.points[1].y) == this.points[1].y) ? this.points[1].y : this.points[1].y.toFixed(2);
+                            var line1 = '<span style="font-size: 10px">' + moment(this.x).format('dddd, MMM D, YYYY') + '</span>';
+                            var line2 = '<span style="color: #08c">' + args.chart.series[0].name + ':</span> <b>' + y1 + '</b>';
+                            var line3 = '<span style="color: #390">' + args.chart.series[1].name + ':</span> <b>' + y2 + '</b>';
+                            return line1 + ' <br /> ' + line2 + ' <br /> ' + line3;
+                        }
+                    },
+                    series: [
+                        {
+                            type: 'column'              
+                        },
+                        {
+                            type: 'area',
+                            yAxis: 1                    
+                        }
+                    ]
+                };
+
+                if ($('select[name="graph_metric1"]').length > 0) {
+                    var metric1_key = $('select[name="graph_metric1"]').val();
+                    var metric1_text = $('select[name="graph_metric1"]').select2('data')[0].text;
+
+                    var metric2_key = $('select[name="graph_metric2"]').val();
+                    var metric2_text = $('select[name="graph_metric2"]').select2('data')[0].text;
+                } else {
+                    metric1_key = 'posts';
+                    metric1_text = '帖子数目';
+
+                    metric2_key = 'clicks';
+                    metric2_text = '浏览次数';
+                }
+
+                var series1 = [],
+                    series2 = [],
+                    totals = {
+                        'posts': 0,
+                        'clicks': 0,
+                        'replys': 0,
+                        'flowers': 0,
+                        'eggs': 0
+                    };
+                
+                for (var row in data) {
+                    Utils.log(data[row]);
+
+                    // 平均每贴浏览次数, 回复次数, 点赞次数
+                    data[row]['clicksPerPost'] = divNumbers(data[row]['clicks'], data[row]['posts']);
+                    data[row]['replysPerPost'] = divNumbers(data[row]['replys'], data[row]['posts']);
+                    data[row]['flowersPerPost'] = divNumbers(data[row]['flowers'], data[row]['posts']);
+
+                    totals.posts += getInteger(data[row]['posts']);
+                    totals.clicks += getInteger(data[row]['clicks']);
+                    totals.replys += getInteger(data[row]['replys']);
+                    totals.flowers += getInteger(data[row]['flowers']);
+                    totals.eggs += getInteger(data[row]['eggs']);
+
+                    var val = parseFloat(data[row][metric1_key]);
+                    series1.push([moment(data[row]['statdt']).valueOf(), val]);
+
+                    var val = parseFloat(data[row][metric2_key]);
+                    series2.push([moment(data[row]['statdt']).valueOf(), val]);
+                }
+
+                chartoptions.series[0].name = metric1_text;
+                chartoptions.series[0].data = series1;
+                chartoptions.series[0].pointStart = series1[0][0].valueOf();
+
+                chartoptions.series[1].name = metric2_text
+                chartoptions.series[1].data = series2;
+                chartoptions.series[1].pointStart = series2[0][0].valueOf();
+
+                if ($('#' + target + ' .placeholder').length > 0) {
+                    chartoptions.chart.renderTo = $('#' + target + ' .placeholder')[0];
+                } else {
+                    chartoptions.chart.renderTo = $('#' + target)[0];
+                }
+
+                sums = ["posts", "clicks", "replys", "flowers", "eggs"];
+                if (sums.indexOf(metric1_key) != -1) {
+                    h1 = totals[metric1_key];
+                }
+                if (sums.indexOf(metric2_key) != -1) {
+                    h2 = totals[metric2_key];
+                }
+
+                if (metric1_key === "clicksPerPost") {
+                    h1 = divNumbers(totals.clicks, totals.posts);
+                } else if (metric1_key === "replysPerPost") {
+                    h1 = divNumbers(totals.replys, totals.posts);
+                } else if (metric1_key === "flowersPerPost") {
+                    h1 = divNumbers(totals.flowers, totals.posts);
+                }
+
+                if (metric2_key === "clicksPerPost") {
+                    h2 = divNumbers(totals.clicks, totals.posts);
+                } else if (metric2_key === "replysPerPost") {
+                    h2 = divNumbers(totals.replys, totals.posts);
+                } else if (metric2_key === "flowersPerPost") {
+                    h2 = divNumbers(totals.flowers, totals.posts);
+                }
+                
+                $('.metric1 h1').html(h1);
+                $('.metric1 h2').html("全部" + metric1_text);
+
+                $('.metric2 h1').html(h2);
+                $('.metric2 h2').html("全部" + metric2_text);
+
+                graph = new Highcharts.Chart(chartoptions);
+            }
+        </script>
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- feedback -->
+                <div id="feedback">
+                    <form action="" class="form-horizontal" method="post">
+                        <div class="row">
+                            <div class="col-md-10" style="padding-right: 5px">
+                                <textarea name="feedback" class="form-control"></textarea>
+                            </div>
+                            <div class="col-md-2" style="text-align: center">
+                                <input type="submit" name="submit" value="反馈给我们" class="btn btn-success" style="width: 100%" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- copyright -->
+                <div id="footer">
+                    <div class="pull-right" style="text-align: right; padding-top: 5px">Copyright &copy; 2016
+                        <a href="http://www.shinezone.com/">炫踪网络信息科技有限公司</a>
+                        <br />
+                        <a href="./docs/terms.html">服务条款</a>&nbsp;&middot;&nbsp;
+                        <a href="./docs/contents.html">使用说明</a> &nbsp;&middot;&nbsp;
+                        <a href="mailto:zhangliang@shinezone.com">联系我们</a>
+                    </div>
+                    <a href="http://www.shinezone.com/">
+                        <img alt="Shinezone Logo" src="../assets/images/logo.png" />
+                    </a>
+                </div>      
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="afs_ads" style="color: #ccc; font-size: 10px; text-align: right; padding: 5px 0">version:20161012</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

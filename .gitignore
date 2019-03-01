@@ -1,0 +1,4 @@
+# ignored files or dirs
+#
+src/build/
+src/dist/

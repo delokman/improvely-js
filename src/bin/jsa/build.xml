@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jsa-demo" basedir="." default="jscompress">
+    <taskdef resource="jst-task.properties" classpath="JSA-20071021.jar" />
+    <property name="src.dir" value="./src" />
+    <property name="build.dir" value="./build" />
+    <target name="jscompress" >
+        <jscompress destDir="${build.dir}" charset="utf-8"
+            allInOneFileName="all.js"
+            syntaxcompression="true"
+            textcompression="true"
+            compatible="true">
+            <fileset dir="${src.dir}">
+                <include name="*.js" />              
+            </fileset>
+        </jscompress>
+    </target>
+</project>

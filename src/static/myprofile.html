@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta charset="utf-8">
+    <title> 我的帐号 - gamekanban.com </title>
+
+    <script type="text/javascript">
+        var userprefs = {
+            goal: 'all',
+            metric1: 'people',
+            metric2: 'conversions',
+            units: 'days',
+            start: '2016-09-13',
+            end: '2016-10-12',
+            timezone: 'Asia/Beijing',
+            plan_id: 3
+        };
+    </script>
+
+    <link rel="stylesheet" href="./assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <link href="./assets/css/app.css" rel="stylesheet" />
+    <script src="./assets/js/app.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="./assets/js/html5shiv-3.7.0.min.js"></script>
+    <script src="./assets/js/respond-1.4.2.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="navbar navbar-default navbar-static-top" style="margin-bottom: 0">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-nav-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar" style="background: #fff"></span>
+                    <span class="icon-bar" style="background: #fff"></span>
+                    <span class="icon-bar" style="background: #fff"></span>
+                </button>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="top-nav-collapse">
+                <ul class="nav navbar-nav"> 
+                    <li class="dropdown project">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-folder-open"></i>
+                            <span style="font-weight: normal">当前:</span>
+                            游戏A
+                            <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li class="heading">
+                                <div class="pull-right">
+                                    <a href="./main.html">游戏列表</a>
+                                </div>
+                                切换游戏
+                            </li>
+  
+                            <li class="project" style="padding:0">
+                                <a href="./settings.html?gameid=100" style="display:block; float:right; text-align:right; color:#08c; padding:10px 15px 10px 5px">
+                                    <i class="fa fa-cog"></i>
+                                    设置
+                                </a>
+                                <a href="./dashboard.html?gameid=100" style="clear:none; display:block; padding:10px 5px 10px 15px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; width:190px; padding-right:0">
+                                    <i class="fa fa-folder"></i>
+                                    游戏A
+                                </a>
+                            </li>
+
+                            <li class="project" style="padding: 0">
+                                <a href="./settings.html?gameid=200" style="display:block; float:right; text-align:right; color:#08c; padding:10px 15px 10px 5px">
+                                    <i class="fa fa-cog"></i>
+                                    设置
+                                </a>
+                                <a href="./dashboard.html?gameid=200" style="clear:none; display:block; padding:10px 5px 10px 15px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; width:190px; padding-right:0">
+                                    <i class="fa fa-folder"></i>
+                                    游戏B
+                                </a>
+                            </li>
+
+                            <li class="footer">
+                                <form method="get" action="./new.html">
+                                    <input type="submit" value="创建新游戏" class="btn btn-success btn-sm" />
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right"> 
+                    <li class="dropdown alerts" id="alerts">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell"></i> 
+                            <span class="label label-info">3</span>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-header">最新消息</li>
+
+                            <li id="news_15" class="news">
+                                <a href="javascript:void();">
+                                <i class="fa fa-circle" style="color: #5bc0de"></i>&nbsp;
+                                    2016-10-11: 游戏活跃人数过千万
+                                </a>
+                            </li>
+
+                            <li id="news_14" class="news">
+                                <a href="https://www.improvely.com/blog/2016/06/24/new-metric-converted-people/">
+                                <i class="fa fa-circle" style="color: #5bc0de"></i>&nbsp; 
+                                    2015-09-22: 游戏活跃人数过百万
+                                </a>
+                            </li>
+
+                            <li id="news_14" class="news">
+                                <a href="https://www.improvely.com/blog/2016/06/24/new-metric-converted-people/">
+                                <i class="fa fa-circle" style="color: #5bc0de"></i>&nbsp; 
+                                    2013-08-10: 游戏活跃人数过万
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown profile">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-cog fa-lg"></i>
+                            帐号设置
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/plan"><i class="fa fa-credit-card"></i> Plan &amp; Billing Info</a></li>
+                            <li><a href="/users"><i class="fa fa-users"></i> 管理用户 </a></li>
+                            <li><a href="/api"><i class="fa fa-key"></i> API 证书</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown profile">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="https://www.gravatar.com/avatar/cbea0da6158fb08afead8143a5d461a2?s=24&d=identicon" 
+                                style="border: 1px solid #ccc; border-radius: 2px; position: absolute; top: 12px; left: 15px" />
+                            <span style="margin-left: 33px">signinuser@shinezone.com</span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./myprofile.html"><i class="fa fa-user"></i> 我的帐号 </a></li>
+                            <li><a href="./referral.html"><i class="fa fa-user-plus"></i> 推荐给朋友 </a></li>
+                            <li><a href="./signout.html"><i class="fa fa-power-off"></i> 退出登录 </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div> <!-- /container -->
+    </div> <!-- /navbar -->
+
+    <!-- main meuns -->
+    <div class="navbar navbar-subnav">
+        <div class="container">
+            <ul class="nav navbar-nav navbar-sub"> 
+                <li><a href="./dashboard.html"><i class="fa fa-th-large"></i> 游戏看板 </a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-bar-chart"></i><span> 游戏外部舆情 </span><b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="./external/feedback-stat.html"><i class="fa fa-globe"></i> 游戏反馈统计 </a></li>
+                        <li><a href="./external/forum-stat.html"><i class="fa fa-bullhorn"></i> 论坛发帖统计 </a></li>
+                        <li><a href="./external/publish-stat.html"><i class="fa fa-search"></i> 渠道统计分析 </a></li>
+                        <li><a href="./external/loss-factor.html"><i class="fa fa-filter"></i> 流失因素分析 </a></li>
+                        <li><a href="./external/user-chatting.html"><i class="fa fa-share-alt"></i> 玩家聊天分析 </a></li>
+                        <li><a href="./external/user-portrait.html"><i class="fa fa-share"></i> 玩家画像追踪 </a></li>                    
+                        <li><a href="./external/game-graph.html"><i class="fa fa-link"></i> 相关游戏图谱 </a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-exclamation-triangle"></i><span> 游戏内数据服务 </span> <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="./internal/potential-loss.html"><i class="fa fa-line-chart"></i> 潜在流失用户分析 </a></li>
+                        <li><a href="./internal/potential-paid.html"><i class="fa fa-line-chart"></i> 潜在付费用户分析 </a></li>
+                        <li><a href="./internal/user-clustering.html"><i class="fa fa-line-chart"></i> 用户聚类分析 </a></li>
+                        <li><a href="./internal/individual-referral.html"><i class="fa fa-line-chart"></i> 个性化推荐系统 </a></li>
+                        <li><a href="./internal/action-predicting.html"><i class="fa fa-line-chart"></i> 用户行为预测服务 </a></li>
+                        <li><a href="./internal/user-fondness.html"><i class="fa fa-line-chart"></i> 用户喜好度分析 </a></li>
+                        <li><a href="./internal/game-chatting.html"><i class="fa fa-line-chart"></i> 游戏内聊天分析 </a></li>
+                        <li><a href="./internal/health-trends.html"><i class="fa fa-line-chart"></i> 游戏健康趋势评估 </a></li>
+                        <li><a href="./internal/logging-search.html"><i class="fa fa-line-chart"></i> 日志监控与搜索服务 </a></li>
+                        <li><a href="./internal/value-evaluation.html"><i class="fa fa-line-chart"></i> 游戏数值评估系统 </a></li>
+                        <li><a href="./internal/anti-fraud.html"><i class="fa fa-line-chart"></i> 反欺诈分析 </a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-wrench"></i> <span> 管理工具 </span> <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="./tools/webshop/import"><i class="fa fa-upload"></i> Import PPC Costs</a></li>
+                        <li><a href="./tools/webshop/affiliate/import"><i class="fa fa-money"></i> Import Affiliate Commissions</a></li>
+                        <li><a href="./tools/webshop/links"><i class="fa fa-link"></i> Manage Tracking Links</a></li>
+                        <li><a href="./reports/webshop/people/explore"><i class="fa fa-users"></i> People Explorer</a></li>
+                        <li><a href="./reports/webshop/realtime"><i class="fa fa-eye"></i> Realtime Spy</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right" style="margin-right: 0">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle btn-success btn btn-sm" data-toggle="dropdown" style="font-weight: bold; margin: 9px 0; padding: 4px 10px; background: #5eb95e">
+                        <i class="fa fa-plus"></i> 新建 <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" style="margin-top: -9px">
+                        <li><a href="./tools/webshop/link_builder"><i class="fa fa-link"></i> Tracking Link</a></li>
+                        <li><a href="./tools/webshop/link_builder?ab=true"><i class="fa fa-random"></i> A/B Split Test</a></li>
+                        <li><a href="./tools/webshop/affiliate/link_builder"><i class="fa fa-share"></i> Affiliate Outlink</a></li>
+                        <li><a href="./tools/webshop/funnel_builder"><i class="fa fa-filter"></i> Funnel Report</a></li>
+                        <li><a href="./user"><i class="fa fa-user"></i> User</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div> <!-- /container -->    
+    </div> <!-- /navbar -->
+
+    <!-- page specific -->
+    <div class="container">
+        <!-- main content -->
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="transparent-header">
+                    <h1> 我的账号 </h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="page" style="padding: 20px">
+                    <form class="form-horizontal" method="post" action="/profile">
+                        <div class="form-group">
+                            <label for="last_name" class="col-xs-4">姓:</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" name="last_name" value="王" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="first_name" class="col-xs-4">名:</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" name="first_name" value="亮亮" />
+                            </div>
+                        </div>						
+
+                        <div class="form-group">
+                            <label for="email" class="col-xs-4">E-mail:</label>
+                            <div class="col-xs-8">
+                                <input type="text" class="form-control" name="email" value="wangliangliang2016@qq.com" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="col-xs-4">时区:</label>
+                            <div class="col-xs-8">
+                                <select name="timezone" class="form-control">
+                                    <option value="Etc/GMT+12">(GMT-12:00) International Date Line West</option>
+                                    <option value="Pacific/Apia">(GMT-11:00) Midway Island, Samoa</option>
+                                    <option value="Pacific/Honolulu">(GMT-10:00) Hawaii</option>
+                                    <option value="America/Anchorage">(GMT-09:00) Alaska</option>
+                                    <option value="America/Los_Angeles">(GMT-08:00) Pacific Time (US & Canada); Tijuana</option>
+                                    <option value="America/Phoenix">(GMT-07:00) Arizona</option>
+                                    <option value="America/Denver">(GMT-07:00) Mountain Time (US & Canada)</option>
+                                    <option value="America/Chihuahua">(GMT-07:00) Chihuahua, La Paz, Mazatlan</option>
+                                    <option value="America/Managua">(GMT-06:00) Central America</option>
+                                    <option value="America/Regina">(GMT-06:00) Saskatchewan</option>
+                                    <option value="America/Mexico_City">(GMT-06:00) Guadalajara, Mexico City, Monterrey</option>
+                                    <option value="America/Chicago">(GMT-06:00) Central Time (US & Canada)</option>
+                                    <option value="America/Indianapolis">(GMT-05:00) Indiana (East)</option>
+                                    <option value="America/Bogota">(GMT-05:00) Bogota, Lima, Quito</option>
+                                    <option value="America/New_York">(GMT-05:00) Eastern Time (US & Canada)</option>
+                                    <option value="America/Caracas">(GMT-04:00) Caracas, La Paz</option>
+                                    <option value="America/Santiago">(GMT-04:00) Santiago</option>
+                                    <option value="America/Halifax">(GMT-04:00) Atlantic Time (Canada)</option>
+                                    <option value="America/St_Johns">(GMT-03:30) Newfoundland</option>
+                                    <option value="America/Buenos_Aires">(GMT-03:00) Buenos Aires, Georgetown</option>
+                                    <option value="America/Godthab">(GMT-03:00) Greenland</option>
+                                    <option value="America/Sao_Paulo">(GMT-03:00) Brasilia</option>
+                                    <option value="America/Noronha">(GMT-02:00) Mid-Atlantic</option>
+                                    <option value="Atlantic/Cape_Verde">(GMT-01:00) Cape Verde Is.</option>
+                                    <option value="Atlantic/Azores">(GMT-01:00) Azores</option>
+                                    <option value="Africa/Casablanca">(GMT) Casablanca, Monrovia</option>
+                                    <option value="Europe/London">(GMT) Greenwich Mean Time : Dublin, Edinburgh, Lisbon, London</option>
+                                    <option value="Africa/Lagos">(GMT+01:00) West Central Africa</option>
+                                    <option value="Europe/Berlin">(GMT+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna</option>
+                                    <option value="Europe/Paris">(GMT+01:00) Brussels, Copenhagen, Madrid, Paris</option>
+                                    <option value="Europe/Sarajevo">(GMT+01:00) Sarajevo, Skopje, Warsaw, Zagreb</option>
+                                    <option value="Europe/Belgrade">(GMT+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague</option>
+                                    <option value="Africa/Johannesburg">(GMT+02:00) Harare, Pretoria</option>
+                                    <option value="Asia/Jerusalem">(GMT+02:00) Jerusalem</option>
+                                    <option value="Europe/Istanbul">(GMT+02:00) Athens, Istanbul, Minsk</option>
+                                    <option value="Europe/Helsinki">(GMT+02:00) Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius</option>
+                                    <option value="Africa/Cairo">(GMT+02:00) Cairo</option>
+                                    <option value="Europe/Bucharest">(GMT+02:00) Bucharest</option>
+                                    <option value="Africa/Nairobi">(GMT+03:00) Nairobi</option>
+                                    <option value="Asia/Riyadh">(GMT+03:00) Kuwait, Riyadh</option>
+                                    <option value="Europe/Moscow">(GMT+03:00) Moscow, St. Petersburg, Volgograd</option>
+                                    <option value="Asia/Baghdad">(GMT+03:00) Baghdad</option>
+                                    <option value="Asia/Tehran">(GMT+03:30) Tehran</option>
+                                    <option value="Asia/Muscat">(GMT+04:00) Abu Dhabi, Muscat</option>
+                                    <option value="Asia/Tbilisi">(GMT+04:00) Baku, Tbilisi, Yerevan</option>
+                                    <option value="Asia/Kabul">(GMT+04:30) Kabul</option>
+                                    <option value="Asia/Karachi">(GMT+05:00) Islamabad, Karachi, Tashkent</option>
+                                    <option value="Asia/Yekaterinburg">(GMT+05:00) Ekaterinburg</option>
+                                    <option value="Asia/Calcutta">(GMT+05:30) Chennai, Kolkata, Mumbai, New Delhi</option>
+                                    <option value="Asia/Katmandu">(GMT+05:45) Kathmandu</option>
+                                    <option value="Asia/Colombo">(GMT+06:00) Sri Jayawardenepura</option>
+                                    <option value="Asia/Dhaka">(GMT+06:00) Astana, Dhaka</option>
+                                    <option value="Asia/Novosibirsk">(GMT+06:00) Almaty, Novosibirsk</option>
+                                    <option value="Asia/Rangoon">(GMT+06:30) Rangoon</option>
+                                    <option value="Asia/Bangkok">(GMT+07:00) Bangkok, Hanoi, Jakarta</option>
+                                    <option value="Asia/Krasnoyarsk">(GMT+07:00) Krasnoyarsk</option>
+                                    <option value="Australia/Perth">(GMT+08:00) Perth</option>
+                                    <option value="Asia/Taipei">(GMT+08:00) Taipei</option>
+                                    <option value="Asia/Singapore">(GMT+08:00) Kuala Lumpur, Singapore</option>
+                                    <option value="Asia/Beijing" selected="selected">(GMT+08:00) Beijing, Shanghai, Chongqing, Hong Kong, Urumqi</option>
+                                    <option value="Asia/Irkutsk">(GMT+08:00) Irkutsk, Ulaan Bataar</option>
+                                    <option value="Asia/Tokyo">(GMT+09:00) Osaka, Sapporo, Tokyo</option>
+                                    <option value="Asia/Seoul">(GMT+09:00) Seoul</option>
+                                    <option value="Asia/Yakutsk">(GMT+09:00) Yakutsk</option>
+                                    <option value="Australia/Darwin">(GMT+09:30) Darwin</option>
+                                    <option value="Australia/Adelaide">(GMT+09:30) Adelaide</option>
+                                    <option value="Pacific/Guam">(GMT+10:00) Guam, Port Moresby</option>
+                                    <option value="Australia/Brisbane">(GMT+10:00) Brisbane</option>
+                                    <option value="Asia/Vladivostok">(GMT+10:00) Vladivostok</option>
+                                    <option value="Australia/Hobart">(GMT+10:00) Hobart</option>
+                                    <option value="Australia/Sydney">(GMT+10:00) Canberra, Melbourne, Sydney</option>
+                                    <option value="Asia/Magadan">(GMT+11:00) Magadan, Solomon Is., New Caledonia</option>
+                                    <option value="Pacific/Fiji">(GMT+12:00) Fiji, Kamchatka, Marshall Is.</option>
+                                    <option value="Pacific/Auckland">(GMT+12:00) Auckland, Wellington</option>
+                                    <option value="Pacific/Tongatapu">(GMT+13:00) Nuku'alofa</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="col-xs-4">密码:</label>
+                            <div class="col-xs-8">
+                                <input type="password" class="form-control" name="password" value="" />
+                                <p class="help-block">如果保留原密码请不要填写!</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-xs-8 col-xs-offset-4 checkbox checkbox-primary">
+                                <input type="checkbox" id="notify_game" name="notify_game" value="1" /> 
+                                <label for="notify_game">
+                                    邮件订阅游戏事件
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-xs-8 col-xs-offset-4 checkbox checkbox-primary">
+                                <input type="checkbox" id="notify_news" name="notify_news" value="1" /> 
+                                <label for="notify_news">
+                                    邮件订阅行业重要新闻
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-actions" style="margin: 0 -20px -20px -20px; text-align: right">
+                            <input type="submit" class="btn btn-success" value="保存更改" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                //TODO:
+            });
+        </script>
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- feedback -->
+                <div id="feedback">
+                    <form action="" class="form-horizontal" method="post">
+                        <div class="row">
+                            <div class="col-md-10" style="padding-right: 5px">
+                                <textarea name="feedback" class="form-control"></textarea>
+                            </div>
+                            <div class="col-md-2" style="text-align: center">
+                                <input type="submit" name="submit" value="反馈给我们" class="btn btn-success" style="width: 100%" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- copyright -->
+                <div id="footer">
+                    <div class="pull-right" style="text-align: right; padding-top: 5px">Copyright &copy; 2016
+                        <a href="http://www.shinezone.com/">炫踪网络信息科技有限公司</a>
+                        <br />
+                        <a href="./terms.html">服务条款</a>&nbsp;&middot;&nbsp;
+                        <a href="./docs.html">使用说明</a> &nbsp;&middot;&nbsp;
+                        <a href="mailto:zhangliang@shinezone.com">联系我们</a>
+                    </div>
+                    <a href="http://www.shinezone.com/">
+                        <img alt="Shinezone Logo" src="./assets/images/logo.png" />
+                    </a>
+                </div>      
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="afs_ads" style="color: #ccc; font-size: 10px; text-align: right; padding: 5px 0">version:20161012</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

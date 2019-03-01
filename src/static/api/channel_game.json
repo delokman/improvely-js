@@ -1,0 +1,80 @@
+{
+    "Total": 5,
+    "Rows": [
+        {
+            "id": "",
+            "gameid": "90",
+            "channel": "facebook",
+            "publish": "",
+            "version": "",
+            "pkgsize": "",
+            "startdt": "",
+            "enddt": "",
+            "remarks": "",
+            "visits": "",
+            "stars": "",
+            "downlds": "30193411",
+            "statdt": ""
+        },
+        {
+            "id": "",
+            "gameid": "90",
+            "channel": "googleplay",
+            "publish": "",
+            "version": "",
+            "pkgsize": "",
+            "startdt": "",
+            "enddt": "",
+            "remarks": "",
+            "visits": "",
+            "stars": "",
+            "downlds": "8732341",
+            "statdt": ""
+        },
+        {
+            "id": "",
+            "gameid": "90",
+            "channel": "shinezone",
+            "publish": "",
+            "version": "",
+            "pkgsize": "",
+            "startdt": "",
+            "enddt": "",
+            "remarks": "",
+            "visits": "",
+            "stars": "",
+            "downlds": "123212",
+            "statdt": ""
+        },
+        {
+            "id": "",
+            "gameid": "90",
+            "channel": "sina",
+            "publish": "",
+            "version": "",
+            "pkgsize": "",
+            "startdt": "",
+            "enddt": "",
+            "remarks": "",
+            "visits": "",
+            "stars": "",
+            "downlds": "523632",
+            "statdt": ""
+        },
+        {
+            "id": "",
+            "gameid": "90",
+            "channel": "tencent",
+            "publish": "",
+            "version": "",
+            "pkgsize": "",
+            "startdt": "",
+            "enddt": "",
+            "remarks": "",
+            "visits": "",
+            "stars": "",
+            "downlds": "6832353",
+            "statdt": ""
+        }
+    ]
+}

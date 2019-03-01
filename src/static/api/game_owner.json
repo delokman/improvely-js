@@ -1,0 +1,30 @@
+{
+    "Total": 5,
+    "Rows":[
+        {
+            "gameid": "90",
+            "grpid": "1",
+            "userid": ""
+        },
+        {
+            "gameid": "93",
+            "grpid": "1",
+            "userid": ""
+        },
+        {
+            "gameid": "94",
+            "grpid": "1",
+            "userid": ""
+        },
+        {
+            "gameid": "90",
+            "grpid": "11",
+            "userid": ""
+        },
+        {
+            "gameid": "94",
+            "grpid": "11",
+            "userid": ""
+        }
+    ]
+}

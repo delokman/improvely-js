@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!-- for mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> -->
+
+    <title> 游戏列表 - gamekanban.com </title>
+
+    <script type="text/javascript" src="./assets/js/prerequisite.min.js"></script>
+    <script type="text/javascript" src="./use-assets.js">
+        pageConfig.PAGEID = 'main.html';
+        pageConfig.pageURI = new Utils.URI(window.location.href);
+        pageConfig.assetsRoot = './assets/';
+    </script>
+
+    <script type="text/javascript">
+        pageConfig = window.appConfig['main.html'];
+        var userprefs = pageConfig.userPrefs;
+        Utils.log(userprefs);
+
+        var currency_symbol = userprefs.currency_symbol;
+    </script>
+    
+    <style type="text/css">
+        .space{
+            max-height:1px;
+            min-height:1px;
+            overflow:hidden;
+            margin:12px 0
+        }
+        .space-4,[class*=vspace-4]{
+            max-height:1px;
+            min-height:1px;
+            overflow:hidden;
+            margin:4px 0 3px
+        }
+        .space-2,[class*=vspace-2]{
+            max-height:1px;
+            min-height:1px;
+            overflow:hidden;
+            margin:2px 0 1px
+        }
+        .middle{
+            vertical-align:middle
+        }
+        .profile-info-row{
+            display:table-row
+        }
+        .profile-info-name,.profile-info-value{
+            display:table-cell;
+            border-top:1px dotted #D5E4F1
+        }
+        .profile-info-name{
+            text-align:right;
+            padding:2px 10px 2px 4px;
+            font-weight:400;
+            color:#667E99;
+            background-color:transparent;
+            width:110px;
+            vertical-align:middle
+        }
+        .profile-info-value{
+            padding:2px 4px 2px 6px
+        }
+        .profile-info-value>span+span:before{
+            display:inline;
+            content:",";
+            margin-left:1px;
+            margin-right:3px;
+            color:#666;
+            border-bottom:1px solid #FFF
+        }
+        .profile-info-value>span+span.editable-container:before{
+            display:none
+        }
+        .profile-info-row:first-child .profile-info-name,.profile-info-row:first-child .profile-info-value{
+            border-top:none
+        }
+        .profile-user-info-striped{
+            border:1px solid #DCEBF7
+        }
+        .profile-user-info-striped .profile-info-name{
+            color:#336199;
+            background-color:#EDF3F4;
+            border-top:1px solid #F7FBFF
+        }
+        .profile-user-info-striped .profile-info-value{
+            border-top:1px dotted #DCEBF7;
+            padding-left:12px
+        }
+        .profile-picture{
+            border:1px solid #CCC;
+            background-color:#FFF;
+            padding:4px;
+            display:inline-block;
+            max-width:100%;
+            -webkit-box-sizing:border-box;
+            -moz-box-sizing:border-box;
+            box-sizing:border-box;
+            box-shadow:1px 1px 1px rgba(0,0,0,.15)
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar navbar-default navbar-static-top" style="margin-bottom: 0">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-nav-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar" style="background: #fff"></span>
+                    <span class="icon-bar" style="background: #fff"></span>
+                    <span class="icon-bar" style="background: #fff"></span>
+                </button>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="top-nav-collapse">
+                <ul class="nav navbar-nav"> 
+                    <li class="dropdown project">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-folder"></i> 选择游戏 <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li class="heading">
+                                <div class="pull-right">
+                                    <a href="javascript:;" onclick="gotoPage('./main.html'); return false;">游戏列表</a>
+                                </div>
+                                切换游戏
+                            </li>
+
+                            <!-- gameid-template -->
+                            <div id="gameid-template" style="display:none">
+                                <li id="gameid-{{gameid}}" class="project" style="padding:0">
+                                    <a href="javascript:;" style="display:block; float:right; text-align:right; color:#08c; padding:10px 15px 10px 5px"
+                                        onclick="gotoPage('./settings.html', {
+                                                gameid: '{{gameid}}',
+                                                gamename: '{{gamename}}'
+                                            }); return false;">
+                                        <i class="fa fa-cog"></i>
+                                        设置
+                                    </a>
+                                    <a href="javascript:;" style="clear:none; display:block; padding:10px 5px 10px 15px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; width:190px; padding-right:0"
+                                        onclick="gotoPage('./dashboard.html', {
+                                            gameid: '{{gameid}}',
+                                            gamename: '{{gamename}}'
+                                        }); return false;">
+                                        <i class="fa fa-folder"></i>
+                                        {{gamename}}
+                                    </a>
+                                </li>
+                            </div><!--// gameid-template -->
+
+                            <li class="footer">
+                                <form method="get" action="./new.html">
+                                    <input type="submit" value="创建新游戏" class="btn btn-success btn-sm" />
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right"> 
+                    <li class="dropdown alerts" id="alerts">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell"></i> 
+                            <span class="label label-info">3</span>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-header">最新消息</li>
+
+                            <li id="news_15" class="news">
+                                <a href="javascript:void();">
+                                <i class="fa fa-circle" style="color: #5bc0de"></i>&nbsp;
+                                    2016-10-11: 游戏活跃人数过千万
+                                </a>
+                            </li>
+
+                            <li id="news_14" class="news">
+                                <a href="https://www.improvely.com/blog/2016/06/24/new-metric-converted-people/">
+                                <i class="fa fa-circle" style="color: #5bc0de"></i>&nbsp; 
+                                    2015-09-22: 游戏活跃人数过百万
+                                </a>
+                            </li>
+
+                            <li id="news_14" class="news">
+                                <a href="https://www.improvely.com/blog/2016/06/24/new-metric-converted-people/">
+                                <i class="fa fa-circle" style="color: #5bc0de"></i>&nbsp; 
+                                    2013-08-10: 游戏活跃人数过万
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown profile">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-cog fa-lg"></i>
+                            帐号设置
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/plan"><i class="fa fa-credit-card"></i> Plan &amp; Billing Info</a></li>
+                            <li><a href="/users"><i class="fa fa-users"></i> 管理用户 </a></li>
+                            <li><a href="/api"><i class="fa fa-key"></i> API 证书</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown profile">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="./repo/users/test123.png" style="border:1px solid #ccc; border-radius:2px; position:absolute; top:12px; left: 15px" />
+                            <span style="margin-left: 33px">signinuser@shinezone.com</span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./myprofile.html"><i class="fa fa-user"></i> 我的帐号 </a></li>
+                            <li><a href="./referral.html"><i class="fa fa-user-plus"></i> 推荐给朋友 </a></li>
+                            <li><a href="./signout.html"><i class="fa fa-power-off"></i> 退出登录 </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div> <!-- /container -->
+    </div> <!-- /navbar -->
+
+    <!-- page specific -->
+    <div style="height: 20px">&nbsp;</div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="transparent-header">
+                    <h1>我的游戏</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <ul id="sortable">
+                    <!-- gameprofile-template -->
+                    <div id="gameprofile-template" style="display:none">
+                        <li class="site" id="game-{{gameid}}">
+                            <div style="display: none" class="currency">$</div>
+                            <div class="settings" style="padding: 12px">
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li>
+                                        <a href="javascript:;" class="dropdown-toggle btn-default btn btn-sm" style="font-weight:bold; padding:4px 10px; margin-right:6px; background:#eee; color:#2896dd"
+                                            onclick="gotoPage('./settings.html', {
+                                                gameid: '{{gameid}}',
+                                                gamename: '{{gamename}}'
+                                            }); return false;">
+                                            <i class="fa fa-cog"></i>
+                                            设置
+                                        </a>
+                                    </li>
+
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle btn-default btn btn-sm" data-toggle="dropdown" style="font-weight: bold; padding: 3px 10px; margin-right: 6px; background: #eee; color: #2896dd">
+                                            <i class="fa fa-bar-chart"></i>
+                                            常用报表
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu" style="margin-right: 6px">
+                                            <li>
+                                                <a style="float: none" href="javascript:;"
+                                                    onclick="gotoPage('./external/feedback-stat.html', {
+                                                        gameid: '{{gameid}}',
+                                                        gamename: '{{gamename}}'
+                                                    }); return false;">
+                                                    <i class="fa fa-globe"></i> 游戏反馈统计
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a style="float: none" href="javascript:;"
+                                                    onclick="gotoPage('./external/forum-stat.html', {
+                                                        gameid: '{{gameid}}',
+                                                        gamename: '{{gamename}}'
+                                                    }); return false;">
+                                                    <i class="fa fa-bullhorn"></i> 论坛发帖统计
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a style="float: none" href="javascript:;"
+                                                    onclick="gotoPage('./external/publish-stat.html', {
+                                                        gameid: '{{gameid}}',
+                                                        gamename: '{{gamename}}'
+                                                    }); return false;">
+                                                    <i class="fa fa-share-alt"></i> 渠道统计分析
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a style="float: none" href="javascript:;"
+                                                    onclick="gotoPage('./external/loss-factor.html', {
+                                                        gameid: '{{gameid}}',
+                                                        gamename: '{{gamename}}'
+                                                    }); return false;">
+                                                    <i class="fa fa-search"></i> 流失因素分析
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a style="float: none" href="javascript:;"
+                                                    onclick="gotoPage('./external/user-chatting.html', {
+                                                        gameid: '{{gameid}}',
+                                                        gamename: '{{gamename}}'
+                                                    }); return false;">
+                                                    <i class="fa fa-link"></i> 玩家聊天分析
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a style="float: none" href="javascript:;"
+                                                    onclick="gotoPage('./external/user-portrait.html', {
+                                                        gameid: '{{gameid}}',
+                                                        gamename: '{{gamename}}'
+                                                    }); return false;">
+                                                    <i class="fa fa-share"></i> 玩家画像追踪
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a style="float: none" href="javascript:;"
+                                                    onclick="gotoPage('./external/game-graph.html', {
+                                                        gameid: '{{gameid}}',
+                                                        gamename: '{{gamename}}'
+                                                    }); return false;">
+                                                    <i class="fa fa-filter"></i> 相关游戏图谱
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <!--TODO:
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle btn-default btn btn-sm" data-toggle="dropdown" style="font-weight: bold; padding: 3px 10px; background: #eee; color: #2896dd">
+                                            <i class="fa fa-plus"></i> 新建 <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="/tools/webshop/link_builder"><i class="fa fa-link"></i> Tracking Link</a></li>
+                                            <li><a href="/tools/webshop/link_builder?ab=true"><i class="fa fa-random"></i> A/B Split Test</a></li>
+                                            <li><a href="/tools/webshop/affiliate/link_builder"><i class="fa fa-share"></i> Affiliate Outlink</a></li>
+                                            <li><a href="/tools/webshop/funnel_builder"><i class="fa fa-filter"></i> Funnel Report</a></li>
+                                            <li><a href="/user"><i class="fa fa-user"></i> 用户 </a></li>
+                                        </ul>
+                                    </li>
+                                    -->
+                                </ul>
+                                <div>
+                                    <h2 style="cursor:move" title="拖放标签重排序">{{gamename}}</h2>
+                                    <div class="space-4"></div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-3 center">
+                                            <span class="profile-picture">
+                                                <a href="javascript:;"
+                                                    onclick="gotoPage('./dashboard.html', {
+                                                        gameid: '{{gameid}}',
+                                                        gamename: '{{gamename}}'
+                                                    }); return false;">
+                                                    <img alt="{{gamename}} Avatar" src="./repo/{{avatar}}" />
+                                                </a>
+                                            </span>
+                                        </div><!-- /.col -->
+
+                                        <div class="col-xs-12 col-sm-9">
+                                            <div class="profile-user-info">
+                                                <div class="profile-info-row">
+                                                    <div class="profile-info-name"> 开发者 </div>
+                                                    <div class="profile-info-value">
+                                                        <span>{{devel}}</span>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="profile-info-row">
+                                                    <div class="profile-info-name"> 渠道平台 </div>
+                                                    <div class="profile-info-value">
+                                                        <span>{{channels}}</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="profile-info-row">
+                                                    <div class="profile-info-name"> 游戏类型 </div>
+                                                    <div class="profile-info-value">
+                                                        <span>{{type}}</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="profile-info-row">
+                                                    <div class="profile-info-name"> 发行日期 </div>
+                                                    <div class="profile-info-value">
+                                                        <span>{{startdt}}</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="profile-info-row">
+                                                    <div class="profile-info-name"> 标签 </div>
+                                                    <div class="profile-info-value">
+                                                        <span>{{labels}}</span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="profile-info-row">
+                                                    <div class="profile-info-name"> 游戏主页 </div>
+
+                                                    <div class="profile-info-value">
+                                                        <a href="#" target="_blank">{{website}}</a>
+                                                    </div>
+                                                </div>
+
+                                                <div class="profile-info-row">
+                                                    <div class="profile-info-name"> 相关游戏 </div>
+                                                    <div class="profile-info-value">
+                                                        <span>国战</span>
+                                                        <span>动作</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.col -->
+                                    </div><!-- /.row -->
+                                </div>   
+                            </div>
+
+                            <table class="today">
+                                <tbody>
+                                    <tr>
+                                        <th>今日热度421 &uarr;</th>
+                                        <td title="注册用户总数">
+                                            <h3>{{players}}</h3>
+                                            <h4>用户数</h4>
+                                        </td>
+                                        <td title="付费用户总数">
+                                            <h3>{{payers}}</h3>
+                                            <h4>付费用户</h4>
+                                        </td>
+                                        <td title="累积付费金额">
+                                            <h3>{{total}}</h3>
+                                            <h4>累积付费</h4>
+                                        </td>
+                                        <!--
+                                        <td class="people" title="最多同时在线人数">
+                                            <h3><i class="fa fa-spinner fa-spin"></i></h3>
+                                            <h4>最多在线</h4>
+                                        </td>
+                                        -->
+                                        <td title="平均同时在线人数">
+                                            <h3>{{avgonlines}}</h3>
+                                            <h4>平均在线</h4>
+                                        </td>
+                                        <td title="每用户平均收入=累积付费/用户数">
+                                            <h3>{{arpu}}</h3>
+                                            <h4>ARPU</h4>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div style="height:180px; padding-top: 10px" id="gamegraph-{{gameid}}" class="sitegraph">
+                                <div class="placeholder" style="clear: both; margin: 0 -10px -10px -10px"></div>
+                            </div>
+                        </li>
+                    </div> <!--//gameprofile-template -->
+                </ul>
+
+                <div class="alert alert-gray" style="margin-bottom: 0">
+                    <b>提示</b>
+                    拖放游戏面板可以改变显示次序.
+                </div>
+
+                <script type="text/javascript">
+                    <!-- gameid[] -->
+                    var jsonurl = "./api/user_group.json?userid=1000";
+
+                    var ul = $("div#gameid-template").parent();
+                    var gameid_tmpl = $('div#gameid-template').html();
+                    var gameprofile_tmpl = $('div#gameprofile-template').html();
+
+                    $.getJSON(jsonurl, function(jsonData) {
+                        // 用户可能属于多个组, 对每个组都要查询gameid[]
+                        var rows = jsonData.Rows;
+
+                        $.each(rows, function(i, row) {
+                            var jsonurl = "./api/game_owner.json?grpid=" + row.grpid;
+
+                            $.getJSON(jsonurl, function(jsonData) {
+                                // 对每个游戏id分别获取其概要信息
+                                var rows = jsonData.Rows;
+
+                                $.each(rows, function(i, row) {
+                                    var li = ul.children("li#gameid-" + row.gameid);
+
+                                    // 去除重复gameid
+                                    if (li.length === 0) {
+                                        var gameid = parseInt(row.gameid);
+                                        var jsonurl = "./api/game_profile.json?id=" + gameid;
+
+                                        $.getJSON(jsonurl, function(jsonData) {
+                                            // 正常情况应该只返回一条数据
+                                            var rows = jsonData.Rows;
+
+                                            $.each(rows, function(i, row) {
+                                                var li = ul.children("li#gameid-" + row.id);
+
+                                                // 去除重复gameid
+                                                if (li.length === 0) {
+                                                    // 测试条件下会返回多条, 忽略其他
+                                                    if (gameid === parseInt(row.id)) {
+                                                        Utils.log(row.avatar);
+
+                                                        var gameid_html = gameid_tmpl.
+                                                            replace(/{{gameid}}/g, row.id).
+                                                            replace(/{{gamename}}/g, row.name);
+
+                                                        var gameprofile_html = gameprofile_tmpl.
+                                                            replace(/{{gameid}}/g, row.id).
+                                                            replace(/{{gamename}}/g, row.name).
+                                                            replace(/{{players}}/g, row.players).
+                                                            replace(/{{payers}}/g, row.payers).
+                                                            replace(/{{total}}/g, format_money(row.total)).
+                                                            replace(/{{avgonlines}}/g, row.avgonlines).
+                                                            replace(/{{arpu}}/g, format_money(row.arpu)).
+                                                            replace(/{{avatar}}/g, row.avatar).
+                                                            replace(/{{devel}}/g, row.devel).
+                                                            replace(/{{channels}}/g, row.channels).
+                                                            replace(/{{labels}}/g, row.labels).
+                                                            replace(/{{type}}/g, row.type).
+                                                            replace(/{{startdt}}/g, row.startdt).
+                                                            replace(/{{website}}/g, row.website)
+                                                            ;
+
+                                                        $("ul#sortable").append($(gameprofile_html));
+
+                                                        ul.children("li.footer").before(gameid_html);
+
+                                                        updateData();
+                                                    }
+                                                }
+                                            });
+                                        });
+                                    }
+                                });
+                            });
+                        });                
+                    });
+                </script>
+            </div>
+
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">我的帐号</div>
+                    <div class="panel-body">
+                        <table class="table" style="margin: 0">
+                            <tr>
+                                <td style="text-align: left; white-space: nowrap">
+                                    <b>我的类目:</b>
+                                </td>
+                                <td style="text-align: left; white-space: nowrap; width: 100%">
+                                    内部管理员帐户
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left; white-space: nowrap">
+                                    <b>Quota:</b>
+                                </td>
+                                <td style="text-align: left; white-space: nowrap">
+                                    <span id="num_visits">0</span> / 100,000 Visits
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left; padding: 0 8px" colspan="2">
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 0%;" id="pct_visits"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div id="over_quota" class="alert alert-danger" style="color: #000; margin: 0 8px 20px 8px; padding-right: 14px; display: none">
+                            <i class="fa fa-exclamation-triangle" style="color: #c00"></i>
+                            <b>You have exceeded your monthly visit quota</b>: 
+                            <a href="/plan">Upgrade your plan today</a>to increase this limit. Your change will 
+                            take effect immediately and you will be billed at the new rate on your next regular renewal date.
+                        </div>
+
+                        <a class="btn btn-primary" style="width: 210px; text-align: center; margin: 0 0 20px 8px" href="/plan">管理类目和付费账单</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var timerId = setInterval(function() {
+                        updateData();
+                    },
+                    300 * 1000 // 5 minutes refresh
+                );
+
+                updateData();
+
+                $("#sortable").sortable({
+                    placeholder: "site-placeholder",
+                    update: function(event, ui) {
+                        var sorted = $('#sortable').sortable('toArray');
+
+                        var i, projects = '';
+                        for (i = 0; i < sorted.length; i++) {
+                            projects += sorted[i] + ',';
+                        }
+                        projects = projects.slice(0, -1);
+                        $.get('/api/projects?projects=' + projects);
+                    }
+                });
+                $("#sortable").disableSelection();
+            });
+
+
+            function updateData() {
+                var ul = $("ul#sortable");
+                var li = ul.children("li");
+
+                $.each(li, function(i, el) {
+                    // 显示进度条
+                    var placeholder = $('#' + el.id + ' .placeholder');
+                    var loadingHtml =
+                        '<div class="loading" style="font-size: 24px; text-align: center; padding-top: 40px">' +
+                        '  <i class="fa fa-spinner fa-spin"></i>' +
+                        '</div>';
+                    placeholder.html(loadingHtml);
+
+                    // 载入数据
+                    var gameid = el.id.split('-')[1];
+                    var gamegraph = $('#' + 'gamegraph-' + gameid);
+                    if (gamegraph.length > 0) {
+                        var jsonurl = './api/channel_game.json?gameid=' + gameid;
+
+                        $.getJSON(jsonurl, function(jsonData) {
+                            fillGameGraph(gamegraph, jsonData);
+                        });
+                    }
+                });
+            }
+
+
+            function fillGameGraph(gamegraph, jsonData) {
+                var rows = jsonData.Rows;
+
+                var channel_downlds = {}
+                $.each(rows, function(i, row) {
+                    if (channel_downlds.hasOwnProperty(row.channel)) {
+                        var downlds = channel_downlds[row.channel];
+                        channel_downlds[row.channel] = downlds + row.downlds;
+                    } else {
+                        channel_downlds[row.channel] = row.downlds;
+                    }
+                });
+
+                var series_downlds = [];
+                for (key in channel_downlds) {
+                    if (channel_downlds.hasOwnProperty(key)) {
+                        series_downlds.push({
+                            name: key,
+                            data: [ parseFloat(channel_downlds[key])/1000 ]
+                        });
+                    }
+                }
+
+                gamegraph.highcharts({
+                    chart: {
+                        type: 'column'                                
+                    },
+                    title: {
+                        text: null
+                    },
+                    subtitle: {
+                        text: null
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    xAxis: {
+                        categories: [
+                            '平台渠道'                                 
+                        ],
+                        crosshair: true
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: '下载'
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                            '<td style="padding:0"><b>{point.y:.1f} 千次</b></td></tr>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                        }
+                    },
+                    series: series_downlds                        
+                });
+            }
+
+            function updateData_DEL() {
+                // TODO:
+                return;
+
+                getGraph('webshop');
+                getGraph('test');
+
+                $('#pct_visits');
+
+                var jsonurl = '/api/visits.json';
+
+                $.getJSON(jsonurl, function(data) {
+                    var visits = data.visits;
+                    var max = 100000;
+                    var pct = Math.round((visits / max) * 100);
+                    if (pct > 100) {
+                        pct = 100;
+                    }
+
+                    var className = 'progress-bar-success';
+
+                    if (pct > 80) {
+                        className = 'progress-bar-danger';
+                    }
+
+                    $('#num_visits').html(add_commas(visits));
+                    $('#pct_visits').addClass(className);
+                    $('#pct_visits').css('width', pct + '%');
+
+                    if (pct == 100) {
+                        $('#over_quota').show();
+                    }
+                });
+            }
+        </script>
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- feedback -->
+                <div id="feedback">
+                    <form action="" class="form-horizontal" method="post">
+                        <div class="row">
+                            <div class="col-md-10" style="padding-right: 5px">
+                                <textarea name="feedback" class="form-control"></textarea>
+                            </div>
+                            <div class="col-md-2" style="text-align: center">
+                                <input type="submit" name="submit" value="反馈给我们" class="btn btn-success" style="width: 100%" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- copyright -->
+                <div id="footer">
+                    <div class="pull-right" style="text-align: right; padding-top: 5px">Copyright &copy; 2016
+                        <a href="http://www.shinezone.com/">炫踪网络信息科技有限公司</a>
+                        <br />
+                        <a href="./docs/terms.html">服务条款</a>&nbsp;&middot;&nbsp;
+                        <a href="./docs/contents.html">使用说明</a> &nbsp;&middot;&nbsp;
+                        <a href="mailto:zhangliang@shinezone.com">联系我们</a>
+                    </div>
+                    <a href="http://www.shinezone.com/">
+                        <img alt="Shinezone Logo" src="./assets/images/logo.png" />
+                    </a>
+                </div>      
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="afs_ads" style="color: #ccc; font-size: 10px; text-align: right; padding: 5px 0">version:20161012</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

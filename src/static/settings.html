@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!-- for mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> -->
+
+    <title> 游戏设置 - gamekanban.com </title>
+
+    <script type="text/javascript" src="./assets/js/prerequisite.min.js"></script>
+    <script type="text/javascript" src="./use-assets.js">
+        pageConfig.PAGEID = 'settings.html';
+        pageConfig.pageURI = new Utils.URI(window.location.href);
+        pageConfig.assetsRoot = './assets/';
+    </script>
+
+    <script type="text/javascript">
+        pageConfig = window.appConfig['settings.html'];
+        var userprefs = pageConfig.userPrefs;
+        Utils.log(userprefs);
+
+        var currency_symbol = userprefs.currency_symbol;
+    </script>
+</head>
+<body>
+    <div class="navbar navbar-default navbar-static-top" style="margin-bottom: 0">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-nav-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar" style="background: #fff"></span>
+                    <span class="icon-bar" style="background: #fff"></span>
+                    <span class="icon-bar" style="background: #fff"></span>
+                </button>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="top-nav-collapse">
+                <ul class="nav navbar-nav"> 
+                    <li class="dropdown project">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-folder-open"></i>
+                            <span style="font-weight: normal">当前:</span>
+                            <span id="current_game"><!--游戏名--></span>
+                            <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li class="heading">
+                                <div class="pull-right">
+                                    <a href="javascript:;" onclick="gotoPage('./main.html'); return false;">
+                                        游戏列表
+                                    </a>
+                                </div>
+                                切换游戏
+                            </li>
+  
+                            <!-- gameid-template -->
+                            <div id="gameid-template" style="display:none">
+                                <li id="gameid-{{gameid}}" class="project" style="padding:0">
+                                    <a href="javascript:;" style="display:block; float:right; text-align:right; color:#08c; padding:10px 15px 10px 5px"
+                                        onclick="gotoPage('./settings.html', {
+                                            gameid: '{{gameid}}',
+                                            gamename: '{{gamename}}'
+                                        }); return false;">
+                                        <i class="fa fa-cog"></i>
+                                        设置
+                                    </a>
+                                    <a href="javascript:;" style="clear:none; display:block; padding:10px 5px 10px 15px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; width:190px; padding-right:0"
+                                        onclick="gotoPage('./dashboard.html', {
+                                            gameid: '{{gameid}}',
+                                            gamename: '{{gamename}}'
+                                        }); return false;">
+                                        <i class="fa fa-folder"></i>
+                                        {{gamename}}
+                                    </a>
+                                </li>
+                            </div><!--// gameid-template -->
+
+                            <li class="footer">
+                                <form method="get" action="gotoPage('./new.html');">
+                                    <input type="submit" value="创建新游戏" class="btn btn-success btn-sm" />
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right"> 
+                    <li class="dropdown alerts" id="alerts">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell"></i> 
+                            <span class="label label-info">3</span>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-header">最新消息</li>
+
+                            <li id="news_15" class="news">
+                                <a href="javascript:void();">
+                                <i class="fa fa-circle" style="color: #5bc0de"></i>&nbsp;
+                                    2016-10-11: 游戏活跃人数过千万
+                                </a>
+                            </li>
+
+                            <li id="news_14" class="news">
+                                <a href="https://www.improvely.com/blog/2016/06/24/new-metric-converted-people/">
+                                <i class="fa fa-circle" style="color: #5bc0de"></i>&nbsp; 
+                                    2015-09-22: 游戏活跃人数过百万
+                                </a>
+                            </li>
+
+                            <li id="news_14" class="news">
+                                <a href="https://www.improvely.com/blog/2016/06/24/new-metric-converted-people/">
+                                <i class="fa fa-circle" style="color: #5bc0de"></i>&nbsp; 
+                                    2013-08-10: 游戏活跃人数过万
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown profile">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-cog fa-lg"></i>
+                            帐号设置
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/plan"><i class="fa fa-credit-card"></i> Plan &amp; Billing Info</a></li>
+                            <li><a href="/users"><i class="fa fa-users"></i> 管理用户 </a></li>
+                            <li><a href="/api"><i class="fa fa-key"></i> API 证书</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown profile">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="https://www.gravatar.com/avatar/cbea0da6158fb08afead8143a5d461a2?s=24&d=identicon" 
+                                style="border: 1px solid #ccc; border-radius: 2px; position: absolute; top: 12px; left: 15px" />
+                            <span style="margin-left: 33px">signinuser@shinezone.com</span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="./myprofile.html"><i class="fa fa-user"></i> 我的帐号 </a></li>
+                            <li><a href="./referral.html"><i class="fa fa-user-plus"></i> 推荐给朋友 </a></li>
+                            <li><a href="./signout.html"><i class="fa fa-power-off"></i> 退出登录 </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <script type="text/javascript">
+                initOwnerGames("./api/");
+            </script>
+        </div> <!-- /container -->
+    </div> <!-- /navbar -->
+
+    <!-- main meuns -->
+    <div class="navbar navbar-subnav">
+        <div class="container">
+            <ul class="nav navbar-nav navbar-sub"> 
+                <li><a href="javascript:;" onclick="gotoPage('./dashboard.html'); return false;"><i class="fa fa-th-large"></i> 游戏看板 </a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-bar-chart"></i><span> 游戏外部舆情 </span><b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:;" onclick="gotoPage('./external/feedback-stat.html'); return false;"><i class="fa fa-globe"></i> 游戏反馈统计 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('./external/forum-stat.html'); return false;"><i class="fa fa-bullhorn"></i> 论坛发帖统计 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('./external/publish-stat.html'); return false;"><i class="fa fa-search"></i> 渠道统计分析 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('./external/loss-factor.html'); return false;"><i class="fa fa-filter"></i> 流失因素分析 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('./external/user-chatting.html'); return false;"><i class="fa fa-share-alt"></i> 玩家聊天分析 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('./external/user-portrait.html'); return false;"><i class="fa fa-share"></i> 玩家画像追踪 </a></li>                    
+                        <li><a href="javascript:;" onclick="gotoPage('./external/game-graph.html'); return false;"><i class="fa fa-link"></i> 相关游戏图谱 </a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-exclamation-triangle"></i><span> 游戏内数据服务 </span> <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:;" onclick="gotoPage('./internal/potential-loss.html'); return false;"><i class="fa fa-line-chart"></i> 潜在流失用户分析 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('./internal/potential-paid.html'); return false;"><i class="fa fa-line-chart"></i> 潜在付费用户分析 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('./internal/user-clustering.html'); return false;"><i class="fa fa-line-chart"></i> 用户聚类分析 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('./internal/individual-referral.html'); return false;"><i class="fa fa-line-chart"></i> 个性化推荐系统 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('./internal/action-predicting.html'); return false;"><i class="fa fa-line-chart"></i> 用户行为预测服务 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('./internal/user-fondness.html'); return false;"><i class="fa fa-line-chart"></i> 用户喜好度分析 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('./internal/game-chatting.html'); return false;"><i class="fa fa-line-chart"></i> 游戏内聊天分析 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('./internal/health-trends.html'); return false;"><i class="fa fa-line-chart"></i> 游戏健康趋势评估 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('./internal/logging-search.html'); return false;"><i class="fa fa-line-chart"></i> 日志监控与搜索服务 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('./internal/value-evaluation.html'); return false;"><i class="fa fa-line-chart"></i> 游戏数值评估系统 </a></li>
+                        <li><a href="javascript:;" onclick="gotoPage('./internal/anti-fraud.html'); return false;"><i class="fa fa-line-chart"></i> 反欺诈分析 </a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-wrench"></i> <span> 管理工具 </span> <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/tools/webshop/import"><i class="fa fa-upload"></i> Import PPC Costs</a></li>
+                        <li><a href="/tools/webshop/affiliate/import"><i class="fa fa-money"></i> Import Affiliate Commissions</a></li>
+                        <li><a href="/tools/webshop/links"><i class="fa fa-link"></i> Manage Tracking Links</a></li>
+                        <li><a href="/reports/webshop/people/explore"><i class="fa fa-users"></i> People Explorer</a></li>
+                        <li><a href="/reports/webshop/realtime"><i class="fa fa-eye"></i> Realtime Spy</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right" style="margin-right: 0">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle btn-success btn btn-sm" data-toggle="dropdown" style="font-weight: bold; margin: 9px 0; padding: 4px 10px; background: #5eb95e">
+                        <i class="fa fa-plus"></i> 新建 <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" style="margin-top: -9px">
+                        <li><a href="/tools/webshop/link_builder"><i class="fa fa-link"></i> Tracking Link</a></li>
+                        <li><a href="/tools/webshop/link_builder?ab=true"><i class="fa fa-random"></i> A/B Split Test</a></li>
+                        <li><a href="/tools/webshop/affiliate/link_builder"><i class="fa fa-share"></i> Affiliate Outlink</a></li>
+                        <li><a href="/tools/webshop/funnel_builder"><i class="fa fa-filter"></i> Funnel Report</a></li>
+                        <li><a href="/user"><i class="fa fa-user"></i> User</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div> <!-- /container -->    
+    </div> <!-- /navbar -->
+
+    <!-- page specific -->         
+    <div class="container">
+    <div class="row">
+
+	<div class="col-md-12">
+
+				<a class="btn btn-success pull-right" href="/code/webshop"><i class="fa fa-code"></i> &nbsp;Get This Project's Website Code</a>		
+		<div class="transparent-header">
+						<h2>Project ID: 1</h2>
+						<h1>Project Settings</h1>
+		</div>
+
+	</div>
+
+</div>
+
+<div class="row">
+	<div class="col-md-8">
+
+  							
+
+		<form class="form-horizontal" method="post" action="/project/webshop">
+				<input type="hidden" name="id" value="1" />
+		
+		<ul class="nav nav-tabs nav-tabs-toplevel">
+			<li class="active"><a href="#general" data-toggle="tab">General Settings</a></li>
+			<li><a href="#fraudsettings" data-toggle="tab">Click Fraud Settings</a></li>
+			<li><a href="#conversion" data-toggle="tab">Conversion Settings</a></li>
+			<li><a href="#ipignore" data-toggle="tab">IP Exclusion</a></li>
+		</ul>
+
+		<div class="page page-white" style="padding: 0">
+
+			<div class="tab-content" style="padding: 30px 30px 20px 30px">
+				<div class="tab-pane active" id="general">
+
+					<fieldset>
+
+						<div class="form-group">
+							<label class="col-xs-3" for="name">Project Name:</label>
+							<div class="col-xs-9">
+								<input type="text" class="form-control" name="name" value="Web Shop" />
+								<p class="help-block">
+									Example: The name of your website or your client
+								</p>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="name" class="col-xs-3">Currency:</label>
+							<div class="col-xs-9">
+																<select name="currency" class="form-control">
+								<option value="$" selected="selected">Dollar ($)</option><option value="&amp;euro;">Euro (&euro;)</option><option value="&amp;pound;">Pound Sterling (&pound;)</option><option value="&amp;yen;">Japanese Yen (&yen;)</option><option value="&amp;#8377;">Indian Rupee (&#8377;)</option><option value="Kr">Krone (Kr)</option>								</select>
+								<p class="help-block">
+									What symbol should be displayed next to revenue numbers in your reports
+								</p>
+							</div>
+						</div>
+
+						<div class="form-group">
+
+							<div class="checkbox checkbox-primary col-xs-9 col-xs-offset-3">
+								<input type="checkbox" id="organic" name="organic" value="1" checked="checked" />
+								<label for="organic">
+									Track organic and search traffic
+								</label>
+								<p class="help-block">
+									If you uncheck this box, only clicks and conversions from advertising will be tracked.
+								</p>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="checkbox checkbox-primary col-xs-9 col-xs-offset-3">
+								<input type="checkbox" id="compat" name="compat" value="1" checked="checked" />
+								<label for="compat">
+									Enable Google Analytics URL Builder compatibility
+								</label>
+								<p class="help-block">
+									When enabled, 
+									Improvely will read any campaign 
+									information in UTM parameters in your URLs, as well as add UTM parameters to
+									the links our link builder creates. Clicks on links tagged with UTM parameters will
+									be treated as ad clicks.
+								</p>
+							</div>
+						</div>		
+
+					</fieldset>
+
+				</div>
+
+				<div class="tab-pane" id="fraudsettings">
+
+					<fieldset>
+
+						<div class="form-group">
+							<div class="checkbox checkbox-primary col-xs-9 col-xs-offset-3">
+								<input type="checkbox" id="protect" name="protect" value="1" checked="checked" />
+								<label for="protect">
+									Enable click fraud monitoring
+								</label>
+								<p class="help-block">
+									If someone clicks any of your ad tracking links multiple times in a day,
+									we'll display a warning message to that visitor and send a fraud alert to your e-mail.
+								</p>
+							</div>
+						</div>
+
+						<div id="fraud" style="display: block">
+
+							<div class="form-group">
+								<label for="protect_num" class="col-xs-3">Max ad clicks:</label>
+								<div class="col-xs-9">
+									<input type="text" class="form-control" name="protect_num" value="5" />
+									<p class="help-block">
+										The number of times any individual can click any of your ad tracking links 
+										in a 24 hour period before being warned.
+									</p>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="protect_message" class="col-xs-3">Warning message:</label>
+								<div class="col-xs-9">
+									<textarea class="form-control" rows="9" name="protect_message"><b>SUSPICIOUS BEHAVIOR DETECTED</b>
+
+You have been detected clicking this ad more than 5 times in the past 24 hours. This information, including your IP address and geographic location, has been logged and sent to the owner of this ad.
+
+We appreciate your interest in our website. To help keep our prices low by minimizing wasteful ad spending, please bookmark our website for future visits. </textarea>
+									<p class="help-block">
+										This message will be displayed on screen to a visitor who has clicked your
+										ads too many times.
+									</p>
+								</div>
+							</div>
+
+						</div>
+
+					</fieldset>
+
+				</div>
+
+				<div class="tab-pane" id="conversion">
+
+					<fieldset>
+
+						<div class="form-group">
+							<label for="name" class="col-xs-3">Conversion Counting:</label>
+							<div class="radio radio-primary col-xs-9">
+								<input type="radio" id="goal_mode_1" name="goal_mode" value="all" checked="checked" />
+								<label for="goal_mode_1">
+									Count all conversions
+								</label>
+								<p class="help-block">
+									Count multiple conversions from the same person. Useful when your goals are
+									valuable every time they happen such as purchases.
+								</p>
+								<br />
+								<input type="radio" id="goal_mode_2" name="goal_mode" value="one" />
+								<label for="goal_mode_2">
+									Count one conversion per goal
+								</label>
+								<p class="help-block">
+									Count only one conversion per person for each goal. Useful when your goals 
+									only matter once per user, i.e. newsletter subscriptions or account registrations.
+									Goal names are specified in the Conversion Code snippet you add to your site.
+								</p>												
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="name" class="col-xs-3">Duplicate Filter:</label>
+							<div class="checkbox checkbox-primary col-xs-9">
+								<input type="checkbox" id="duplicate_mode" name="duplicate_mode" value="filter" checked="checked" />
+								<label for="duplicate_mode">
+									Delete conversions with duplicate reference values
+								</label>
+								<p class="help-block">
+									If you send a unique reference value with each conversion in your code
+									(e.g. an order number or receipt number), any duplicates sent with the same
+									value will be ignored. Do not enable this setting if you are not sending a
+									unique reference value with each conversion.
+								</p>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="name" class="col-xs-3">Attribution Model:</label>
+							<div class="radio radio-primary col-xs-9">
+								<input type="radio" id="attribution_mode1" name="attribution_mode" value="first" />
+								<label for="attribution_mode1">
+									First click
+								</label>
+								<p class="help-block">
+									In performance reports, attribute conversions to the first traffic source 
+									or ad click that brought the visitor to your site.
+								</p>
+								<br />
+								<input type="radio" id="attribution_mode2" name="attribution_mode" value="firstad" checked="checked" />
+								<label for="attribution_mode2">
+									First ad click
+								</label>
+								<p class="help-block">
+									In performance reports, attribute conversions to the first traffic source
+									or ad click that brought the visitor to your site. If the visitor clicked
+									an ad before converting, attribute the conversion to the first ad click, even
+									if there was an earlier visit from an organic or search source.
+								</p>
+								<br />
+								<input type="radio" id="attribution_mode3" name="attribution_mode" value="last" />
+								<label for="attribution_mode3">
+									Last click
+								</label>
+								<p class="help-block">
+									In performance reports, attribute conversions to the last traffic source 
+									that brought the visitor to your site.
+								</p>
+								<br />
+								<input type="radio" id="attribution_mode4" name="attribution_mode" value="lastad" />
+								<label for="attribution_mode4">
+									Last ad click
+								</label>
+								<p class="help-block">
+									In performance reports, attribute conversions to the last traffic source 
+									that brought the visitor to your site. If the visitor clicked an ad before 
+									converting, attribute the conversion to the last ad click, even if there was 
+									a later visit from an organic or search source.
+								</p>											
+							</div>
+						</div>
+
+					</fieldset>
+
+				</div>
+
+				<div class="tab-pane" id="ipignore">
+
+					<fieldset>
+
+					<div class="form-group">
+						<label class="col-xs-3"></label>
+						<div class="col-xs-9">
+							<p class="help-block">
+								Your IP address: 103.29.140.72							</p>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="ignore_list" class="col-xs-3">Ignored IPs:</label>
+						<div class="col-xs-9">
+							<textarea class="form-control" rows="10" name="ignore_list">178.249.67.21</textarea>
+							<ul style="margin: 20px 0 0 0; padding: 0">
+								<li style="list-style-position: inside">Use this box to list IP addresses you do not want tracked, one per line.</li>
+								<li style="list-style-position: inside">IP ranges can be specified in <a href="http://www.websitegoodies.com/tools/ip-to-cidr" target="_blank">CIDR format</a>.</li>
+								<li style="list-style-position: inside">Visits, conversions and other activity from these IPs will be ignored.</li>
+								<li style="list-style-position: inside">Changes to this list may take up to 10 minutes to take effect.</li>
+							</ul>
+						</div>
+					</div>
+
+					</fieldset>
+
+				</div>
+
+			</div>								
+
+			<div class="form-actions" style="text-align: right">
+				<input type="submit" class="btn btn-success" value="Save Changes" />
+			</div>
+
+			</form>
+
+		</div>
+	</div>
+	<div class="col-md-4">
+
+		
+			<div class="alert alert-gray">
+				You can reset this project to delete all visit and conversion data.
+				Tracking links will not be deleted.
+				<br /><br />
+				<button id="reset" class="btn btn-danger">Reset Project Data</button>
+			</div>
+
+						<div class="alert alert-gray">
+				You can permanently delete this project. Deleting it will remove all stored
+				data including all tracking links. Any clicks on those links
+				will see an error message instead of reaching your landing pages.
+				<br /><br />
+				<button id="delete" class="btn btn-danger">Delete Project</button>
+			</div>
+						
+		
+				<div class="panel panel-default kb">
+			<div class="panel-heading">Need help? Here are some resources for you:</div>
+			<div class="panel-body">
+				<p>
+					<i class="fa fa-file-text-o"></i>
+					<a href="https://www.improvely.com/docs/choosing-your-project-settings" target="_blank">Choosing Your Project Settings</a>
+				</p>
+				<p>
+					<i class="fa fa-file-text-o"></i>
+					<a href="https://www.improvely.com/docs/setting-up-click-fraud-alerts" target="_blank">Setting Up Click Fraud Alerts</a>
+				</p>
+				<p>
+					<i class="fa fa-file-text-o"></i>
+					<a href="https://www.improvely.com/docs/choosing-a-conversion-counting-setting" target="_blank">Choosing a Conversion Counting Setting</a>
+				</p>
+				<p>
+					<i class="fa fa-file-text-o"></i>
+					<a href="https://www.improvely.com/docs/using-the-duplicate-conversion-filter" target="_blank">Using the Duplicate Conversion Filter</a>
+				</p>
+				<p>
+					<i class="fa fa-file-text-o"></i>
+					<a href="https://www.improvely.com/docs/choosing-a-conversion-attribution-model" target="_blank">Choosing a Conversion Attribution Model</a>
+				</p>
+				<p>
+					<i class="fa fa-file-text-o"></i>
+					<a href="https://www.improvely.com/docs/excluding-ip-addresses-from-tracking" target="_blank">Excluding IP Addresses From Tracking</a>
+				</p>
+			</div>
+		</div>
+		
+	</div>
+</div>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+	$('#reset').click(function() {
+
+		var url = '/?reset=1';
+		var result = confirm('Are you sure you want to permanently delete all people, visits and conversions associated with this project?');
+		if (result)
+			window.location = url;
+
+	});
+
+	$('#delete').click(function() {
+
+		var url = '/?delete=1';
+		var result = confirm('Are you sure you want to permanently delete this project?');
+		if (result)
+			window.location = url;
+
+	});
+
+	$('input[name="protect"]').click(function() {
+		if (this.checked)
+			$('#fraud').show();
+		else
+			$('#fraud').hide();
+	});
+
+});
+</script>
+        <div class="row">
+            <div class="col-md-12">
+                <!-- feedback -->
+                <div id="feedback">
+                    <form action="" class="form-horizontal" method="post">
+                        <div class="row">
+                            <div class="col-md-10" style="padding-right: 5px">
+                                <textarea name="feedback" class="form-control"></textarea>
+                            </div>
+                            <div class="col-md-2" style="text-align: center">
+                                <input type="submit" name="submit" value="反馈给我们" class="btn btn-success" style="width: 100%" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- copyright -->
+                <div id="footer">
+                    <div class="pull-right" style="text-align: right; padding-top: 5px">Copyright &copy; 2016
+                        <a href="http://www.shinezone.com/">炫踪网络信息科技有限公司</a>
+                        <br />
+                        <a href="./terms.html">服务条款</a>&nbsp;&middot;&nbsp;
+                        <a href="./docs.html">使用说明</a> &nbsp;&middot;&nbsp;
+                        <a href="mailto:zhangliang@shinezone.com">联系我们</a>
+                    </div>
+                    <a href="http://www.shinezone.com/">
+                        <img alt="Shinezone Logo" src="./assets/images/logo.png" />
+                    </a>
+                </div>      
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="afs_ads" style="color: #ccc; font-size: 10px; text-align: right; padding: 5px 0">version:20161012</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
