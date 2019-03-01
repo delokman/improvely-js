@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - GameKanban</title>
+
+    <link href="./assets/css/web.css" rel="stylesheet" />
+    <script src="./assets/js/web.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="./assets/js/html5shiv-3.7.0.min.js"></script>
+    <script src="./assets/js/respond-1.4.2.min.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" href="./assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <link href='./assets/css/googlefonts.css' rel='stylesheet' type='text/css' />
+    <!-- Start Visual Website Optimizer Asynchronous Code -->
+    <script type='text/javascript'>
+        var _vwo_code=(function(){
+        var account_id=26109,
+        settings_tolerance=2000,
+        library_tolerance=2500,
+        use_existing_jquery=true,
+        // DO NOT EDIT BELOW THIS LINE
+        f=false,d=document;return{use_existing_jquery:function(){return use_existing_jquery;},library_tolerance:function(){return library_tolerance;},finish:function(){if(!f){f=true;var a=d.getElementById('_vis_opt_path_hides');if(a)a.parentNode.removeChild(a);}},finished:function(){return f;},load:function(a){var b=d.createElement('script');b.src=a;b.type='text/javascript';b.innerText;b.onerror=function(){_vwo_code.finish();};d.getElementsByTagName('head')[0].appendChild(b);},init:function(){settings_timer=setTimeout('_vwo_code.finish()',settings_tolerance);var a=d.createElement('style'),b='body{opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important;}',h=d.getElementsByTagName('head')[0];a.setAttribute('id','_vis_opt_path_hides');a.setAttribute('type','text/css');if(a.styleSheet)a.styleSheet.cssText=b;else a.appendChild(d.createTextNode(b));h.appendChild(a);this.load('//dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&r='+Math.random());return settings_timer;}};}());_vwo_settings_timer=_vwo_code.init();
+    </script>
+    <!-- End Visual Website Optimizer Asynchronous Code -->
+</head>
+<body>
+    <!-- Begin Topnav -->
+    <div class="topnav">
+        <div class="container">
+            <div class="row" style="margin: 12px -15px">
+                <div class="col-xs-12">
+                    <a href="/"><img src="./assets/images/logo.png" style="height:100%" /></a>
+                    <ul class="nav nav-pills pull-right">
+                        <li class="dropdown hidden-xs hidden-sm">
+                            <a href="/features/conversion-tracking" class="dropdown-toggle" data-toggle="dropdown">服务特色
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="./features/intro-internal.html"> 游戏内数据分析 </a></li>
+                                <li><a href="./features/intro-external.html"> 游戏外部舆情分析 </a></li>
+                                <li><a href="./features/intro-reports.html"> 游戏全方位报告 </a></li>
+                                <li><a href="./features/intro-lifecycle.html"> 游戏生命周期评估 </a></li>
+                                <li><a href="./features/intro-users.html"> 主动了解玩家行为 </a></li>
+                            </ul>
+                        </li>
+                        <li class="hidden-xs hidden-sm"><a href="./benefits.html">产品优势</a></li>
+                        <li class="hidden-xs hidden-sm"><a href="./pricing.html">定价策略</a></li>
+                        <li class="hidden-xs hidden-sm"><a href="./blog.html">博客</a></li>
+                        <li class="hidden-xs hidden-sm"><a href="./forum.html">论坛</a></li>
+                        <li><a href="./signin.html">登录</a></li>
+                        <li style="padding-left: 10px"><a href="./signup.html" style="border: 1px solid #fff;">开始免费试用</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Topnav -->
+
+    <div style="padding-top:120px; padding-bottom:120px">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-4 col-md-offset-4">
+                    <h1 style="margin: 0 0 20px 0; color: #2896dd; font-size: 22px"> 登录
+                        <a href="./index.html">GameKanban.com</a>
+                    </h1>
+                    <div class="alert" style="background: #fff">
+                        <form action="" method="GET" class="login">
+                            <fieldset>
+                                <div class="input-group" style="margin-bottom: 20px">
+                                    <input class="form-control" name="domain" type="text" placeholder="帐号(必填)" />
+                                    <span class="input-group-addon">@gamekanban.com</span>
+                                </div>
+
+                                <div class="input-group" style="margin-bottom: 20px">
+                                    <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
+                                    <input class="form-control" name="email" type="text" placeholder="E-mail(选填)" />
+                                </div>
+
+                                <div class="input-group" style="margin-bottom: 20px">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa fa-lg"></i></span>
+                                    <input class="form-control" name="password" type="password" placeholder="密码(必填)" />
+                                </div>
+
+                                <div class="submit">
+                                    <input type="submit" class="btn btn-primary" value="登入系统" id="submit" />
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#submit').click(function() {
+                var domain = $('.login input[name="domain"]').val();
+                if (domain === '') {
+                    alert('请输入帐号！');
+                    return false;
+                }
+
+                var password = $('.login input[name="password"]').val();
+                if (password === '') {
+                    alert('请输入密码！');
+                    return false;
+                }
+
+                if (domain != 'test123' || password !== 'abc123') {
+                    alert('用户名或密码不正确！');
+                    return false;
+                }
+
+                var url = './main.html?action=login&uid=' + domain;
+                $('.login').attr('action', url);
+                $('.login').submit();                
+            });
+        });
+    </script>
+
+    <style type="text/css">
+        body {
+            background: #eee;
+        }
+    </style>
+
+    <!-- Begin Footer -->
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-xs-12">
+                    <h4>服务特色</h4>
+                    <a href="./features/intro-internal.html"> 游戏内数据分析 </a>
+                    <br />              
+                    <a href="./features/intro-external.html"> 游戏外部舆情分析 </a>
+                    <br />      
+                    <a href="./features/intro-reports.html"> 游戏全方位报告 </a>
+                    <br />      
+                    <a href="./features/intro-lifecycle.html"> 游戏生命周期评估 </a>
+                    <br />      
+                    <a href="./features/intro-users.html"> 主动了解玩家行为 </a>
+                </div>
+
+                <div class="col-md-3 col-xs-12">
+                    <h4> 更多资源 </h4>
+                    <a href="./pricing.html">定价策略</a>
+                    <br />
+                    <a href="./blog.html"> 博客: blog.gamekanban.com </a>
+                    <br />
+                    <a href="./forum.html"> 论坛: forum.gamekanban.com </a>
+                </div>
+                
+                <div class="col-md-3 col-xs-12">
+                    <h4> 帮助 &amp; 支持 </h4>
+                    <a href="./docs/contents.html"> 知识库 </a>
+                    <br />
+                    <a href="mailto:zhangliang@shinezone.com">zhangliang@shinezone.com</a>
+                    <div style="padding-top: 5px">
+                        <a href="https://weibo.com/shinezone" class="weibo-follow-button" data-show-count="false">新浪微博</a>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-xs-12" style="line-height: 1.8em; font-size: 12px">
+                    <a href="./signup.html" class="btn btn-success btn-large" style="font-weight: bold; color: #fff; width: 100%; font-size: 15px">
+                        现在注册，立享优惠！
+                    </a>
+                    <br /><br />
+                    Copyright &copy; 2016 shinezone.com
+                    <br />
+                    <a href="/terms.html">服务条款</a>
+                    &nbsp;&bull;&nbsp;
+                    <a href="./privacy.html">隐私策略</a>
+                    &nbsp;&bull;&nbsp;
+                    <a href="mailto:zhangliang@shinezone.com">联系我们</a>
+                </div>
+
+          </div>
+        </div>
+    </div>
+    <!-- End Footer -->
+</body>
+</html>
